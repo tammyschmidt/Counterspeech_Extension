@@ -1,0 +1,212 @@
+body {
+    width: 400px;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+h2 {
+    margin: 20px 0 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-section {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+}
+
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.role-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.role-option {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.role-option:hover {
+    border-color: #4a90e2;
+    background-color: #f0f7ff;
+}
+
+.role-option.selected {
+    border-color: #4a90e2;
+    background-color: #4a90e2;
+    color: white;
+}
+
+.role-option.selected:hover {
+    background-color: #357abd;
+    border-color: #357abd;
+}
+
+.style-select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.style-select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.style-select:hover {
+    border-color: #4a90e2;
+}
+
+.generate-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.generate-btn:hover {
+    background-color: #357abd;
+}
+
+.generate-btn:active {
+    background-color: #2d6ba0;
+}
+
+.generate-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 13px;
+}
+
+.hidden {
+    display: none;
+}
+
+.suggestions {
+    margin-top: 20px;
+}
+
+.suggestion-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.suggestion-text {
+    font-size: 13px;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    min-height: 40px;
+}
+
+.suggestion-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-edit {
+    background-color: white;
+    color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+.btn-edit:hover {
+    background-color: #f0f7ff;
+}
+
+.btn-copy {
+    background-color: #4a90e2;
+    color: white;
+    border-color: #4a90e2;
+}
+
+.btn-copy:hover {
+    background-color: #357abd;
+}
+
+.btn-copy.copied {
+    background-color: #28a745;
+    border-color: #28a745;
+}

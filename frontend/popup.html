@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Speech Extension</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Counter Speech Extension</h1>
+        
+        <div class="form-section">
+            <label for="hateful-comment">Hateful Comment *</label>
+            <textarea 
+                id="hateful-comment" 
+                placeholder="Paste the hateful comment here..."
+                rows="4"
+                required
+            ></textarea>
+        </div>
+
+        <div class="form-section">
+            <label for="additional-input">Additional Input (Optional)</label>
+            <textarea 
+                id="additional-input" 
+                placeholder="Add ideas, text snippets, or personal experiences..."
+                rows="3"
+            ></textarea>
+        </div>
+
+        <div class="form-section">
+            <label>Your Role *</label>
+            <div class="role-options">
+                <button type="button" class="role-option" data-role="target">Target</button>
+                <button type="button" class="role-option" data-role="target-group">Target Group Member</button>
+                <button type="button" class="role-option" data-role="ally">Ally</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label for="writing-style">Writing Style *</label>
+            <select id="writing-style" class="style-select" required>
+                <option value="">Select a style...</option>
+                <option value="formal">Formal</option>
+                <option value="familiar">Familiar</option>
+            </select>
+        </div>
+
+        <button id="generate-btn" class="generate-btn">Generate Responses</button>
+
+        <div id="loading" class="loading hidden">
+            Generating counter speech suggestions...
+        </div>
+
+        <div id="suggestions" class="suggestions hidden">
+            <h2>Counter Speech Suggestions</h2>
+            <div id="suggestions-list"></div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

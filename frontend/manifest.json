@@ -1,2 +1,10 @@
-{}
-
+{
+  "manifest_version": 3,
+  "name": "Counter Speech Extension",
+  "version": "1.0.0",
+  "description": "Human-AI Collaboration for Counter Speech against Hate Speech",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": []
+}
