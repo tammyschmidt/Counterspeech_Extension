@@ -8,43 +8,73 @@
 </head>
 <body>
     <div class="container">
-        <h1>Counter Speech Extension</h1>
+        <h1>Counterspeech Writing Assistant</h1>
+        <p class="subtitle">Let's dismantle hate speech!</p>
         
-        <div class="form-section">
+        <!-- Window/Tab Bar -->
+        <div class="window-bar">
+            <button class="window-tab active" data-window="generation">Counterspeech Generation</button>
+            <button class="window-tab" data-window="info">Info</button>
+        </div>
+
+        <!-- Counterspeech Generation Window -->
+        <div id="generation-window" class="window-content active">
+            <div class="form-section">
             <label for="hateful-comment">Hateful Comment *</label>
             <textarea 
                 id="hateful-comment" 
-                placeholder="Paste the hateful comment here..."
+                placeholder="Paste the hateful comment here."
                 rows="4"
                 required
             ></textarea>
         </div>
 
         <div class="form-section">
-            <label for="additional-input">Additional Input (Optional)</label>
+            <label for="additional-input">Additional Input *</label>
             <textarea 
                 id="additional-input" 
-                placeholder="Add ideas, text snippets, or personal experiences..."
+                placeholder="Add ideas, text snippets or personal experiences..."
                 rows="3"
+                required
             ></textarea>
         </div>
 
         <div class="form-section">
             <label>Your Role *</label>
             <div class="role-options">
-                <button type="button" class="role-option" data-role="target">Target</button>
+                <button type="button" class="role-option" data-role="target">Direct Target</button>
                 <button type="button" class="role-option" data-role="target-group">Target Group Member</button>
                 <button type="button" class="role-option" data-role="ally">Ally</button>
             </div>
         </div>
 
         <div class="form-section">
-            <label for="writing-style">Writing Style *</label>
-            <select id="writing-style" class="style-select" required>
-                <option value="">Select a style...</option>
-                <option value="formal">Formal</option>
-                <option value="familiar">Familiar</option>
-            </select>
+            <label>Writing Style *</label>
+            <div class="style-options">
+                <button type="button" class="style-option" data-style="familiar">Familiar</button>
+                <button type="button" class="style-option" data-style="formal">Formal</button>
+                
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label for="length-slider">Response Length</label>
+            <div class="slider-container">
+                <input 
+                    type="range" 
+                    id="length-slider" 
+                    class="length-slider" 
+                    min="1" 
+                    max="3" 
+                    value="2"
+                    step="1"
+                >
+                <div class="slider-labels">
+                    <span>Short</span>
+                    <span id="length-value">Medium<br>(40-80 words)</span>
+                    <span>Long</span>
+                </div>
+            </div>
         </div>
 
         <button id="generate-btn" class="generate-btn">Generate Responses</button>
@@ -56,6 +86,54 @@
         <div id="suggestions" class="suggestions hidden">
             <h2>Counter Speech Suggestions</h2>
             <div id="suggestions-list"></div>
+        </div>
+        </div>
+
+        <!-- Info Window -->
+        <div id="info-window" class="window-content">
+            <p class="consent-intro">Consent can be withdrawn at any moment by disabling or uninstalling the extension.</p>
+            <div class="consent-section">
+                <div class="consent-paragraph">
+                    <h3>Data Privacy</h3>
+                    <p>This browser extension is connected to a Large Language Model. All data provided for the Counterspeech Generation is transmitted to LlaMA 3 via the Groq API (HTTPS encryption). 
+                    Previously transmitted data to the LLM cannot be deleted.
+                    No additional data is collected or stored. The extension does not read the website.</p>
+                    <div class="consent-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="consent-privacy" class="consent-toggle">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">I consent</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="consent-paragraph">
+                    <h3>Accountability</h3>
+                    <p>You retain full responsibility for any content you ultimately publish, including comments that are based on or adapted from AI-generated suggestions. 
+                    You are accountable for any consequences arising from posted content. 
+                    Fact-check any generated information.</p>
+                    <div class="consent-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="consent-accountability" class="consent-toggle">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">I consent</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="consent-paragraph">
+                    <h3>Ethical Use</h3>
+                    <p>You may use this extension only for the intended purpose. 
+                    Please be aware that LLMs can perpetuate biases and influence viewpoints. Always critically question the generated Counterspeech responses.</p>
+                    <div class="consent-control">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="consent-ethical" class="consent-toggle">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">I consent</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="popup.js"></script>

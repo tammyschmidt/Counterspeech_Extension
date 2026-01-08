@@ -26,6 +26,7 @@ class GroqService:
         additional_input: Optional[str] = None,
         role: str = "ally",
         writing_style: str = "formal",
+        length: int = 3,
         examples: Optional[List[Dict[str, str]]] = None,
     ) -> List[str]:
         """
@@ -36,6 +37,7 @@ class GroqService:
             additional_input: Optional additional context from the user.
             role: User's role ('target', 'target-group', or 'ally').
             writing_style: Writing style ('formal' or 'familiar').
+            length: Response length on a scale of 1-3 (1=Short 20-40 words, 2=Medium 40-80 words, 3=Long 80-120 words).
             examples: Optional list of similar examples from CONAN dataset.
 
         Returns:
@@ -46,6 +48,7 @@ class GroqService:
             hateful_comment=hateful_comment.strip(),
             role=role,
             writing_style=writing_style,
+            length=self._format_length(length),
             additional_input=self._format_additional_input(additional_input),
             examples_text=self._format_examples(examples),
         )
@@ -95,14 +98,14 @@ class GroqService:
             "Hate speech comment: {hateful_comment}\n"
             "Role of responder: {role}\n"
             "Writing style: {writing_style}\n"
+            "Response length: {length}\n"
             "Free text user input: {additional_input}\n"
             "Retrieved examples:\n{examples_text}\n\n"
             "Output format: Generate three distinct CS suggestions responding "
             "to the HS. Number them 1., 2., 3. and return only these three "
-            "items. Each suggestion should be a self-contained short paragraph "
-            "(1-4 sentences) unless the user requested a different length. Be "
-            "concise, natural, and clear. Avoid quoting the HS verbatim, "
-            "especially slurs.\n\n"
+            "items. Each suggestion should be a self-contained paragraph with "
+            "the length specified above ({length}). Be natural and clear. "
+            "Avoid quoting the HS verbatim, especially slurs.\n\n"
             "Instructions:\n"
             "1) Identify the target group/person and the implied negative "
             "attitude or stereotype.\n"
@@ -126,6 +129,15 @@ class GroqService:
         )
 
         return template
+
+    def _format_length(self, length: int) -> str:
+        """Convert numeric length (1-3) to descriptive text with word counts."""
+        length_descriptions = {
+            1: "Short (20-40 words)",
+            2: "Medium (40-80 words)",
+            3: "Long (80-120 words)"
+        }
+        return length_descriptions.get(length, "Medium (40-80 words)")
 
     def _format_additional_input(self, additional_input: Optional[str]) -> str:
         """Ensure additional input has a fallback string."""

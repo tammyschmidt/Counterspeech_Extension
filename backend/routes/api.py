@@ -54,6 +54,7 @@ async def generate_counter_speech(request: GenerateRequest):
             additional_input=request.additional_input,
             role=request.role,
             writing_style=request.writing_style,
+            length=request.length,
             examples=examples
         )
         
