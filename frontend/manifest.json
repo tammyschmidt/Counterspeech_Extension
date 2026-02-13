@@ -14,6 +14,9 @@
     "activeTab",
     "scripting"
   ],
+  "host_permissions": [
+    "https://counterspeechextension-production.up.railway.app/*"
+  ],
   "web_accessible_resources": [
     {
       "resources": ["popup.html", "popup.css", "popup.js"],
