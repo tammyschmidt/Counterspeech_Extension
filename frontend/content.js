@@ -8,8 +8,9 @@
     let overlay = document.getElementById(OVERLAY_ID);
   
     if (overlay) {
-      // Toggle visibility if overlay already exists
-      overlay.style.display = overlay.style.display === 'none' ? 'flex' : 'none';
+      // If overlay already exists, remove it completely so a fresh
+      // instance (with cleared inputs) is created next time.
+      overlay.remove();
       return;
     }
   
@@ -78,7 +79,9 @@
       closeBtn.style.color = '#666';
     });
     closeBtn.addEventListener('click', () => {
-      overlay.style.display = 'none';
+      // Remove the overlay entirely so that reopening creates
+      // a fresh iframe with empty inputs and default state.
+      overlay.remove();
     });
   
     // Iframe containing the popup

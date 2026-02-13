@@ -21,7 +21,7 @@ GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile")  # Default model
 DATA_DIR = backend_dir / "data"
 CONAN_DATA_PATH = os.getenv(
     "CONAN_DATA_PATH",
-    str(DATA_DIR / "Multitarget-CONAN.csv")
+    str(DATA_DIR / "Multitarget-CONAN_withoutexamples.csv")
 )
 EMBEDDING_MODEL_NAME = os.getenv(
     "EMBEDDING_MODEL_NAME",
