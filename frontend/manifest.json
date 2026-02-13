@@ -4,9 +4,20 @@
   "version": "1.0.0",
   "description": "Human-AI Collaboration for Counter Speech against Hate Speech",
   "action": {
-    "default_popup": "popup.html"
+    "default_title": "Counter Speech"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html", "popup.css", "popup.js"],
+      "matches": ["<all_urls>"]
+    }
   ]
 }
