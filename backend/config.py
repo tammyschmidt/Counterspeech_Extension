@@ -25,7 +25,7 @@ CONAN_DATA_PATH = os.getenv(
 )
 EMBEDDING_MODEL_NAME = os.getenv(
     "EMBEDDING_MODEL_NAME",
-    "all-MiniLM-L6-v2"
+    "all-mpnet-base-v2"
 )
 RETRIEVAL_TOP_K = int(os.getenv("RETRIEVAL_TOP_K", "5"))
 FAISS_INDEX_PATH = os.getenv(
