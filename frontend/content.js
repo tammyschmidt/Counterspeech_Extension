@@ -1,5 +1,4 @@
 // Counter Speech Extension - Content Script
-// Injects a persistent overlay that stays open until the user clicks the close button
 
 (function () {
     const OVERLAY_ID = 'counterspeech-extension-overlay';

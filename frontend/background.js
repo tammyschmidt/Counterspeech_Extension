@@ -1,6 +1,4 @@
 // Counter Speech Extension - Background Service Worker
-// Opens the overlay when the extension icon is clicked (replaces default popup behavior)
-
 chrome.action.onClicked.addListener(async (tab) => {
     // Cannot inject into browser internal pages
     if (!tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('edge://') || tab.url.startsWith('about:')) {
