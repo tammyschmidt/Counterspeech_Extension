@@ -1,15 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Counter Speech Extension",
+  "name": "Counterspeech Extension",
   "version": "1.0.0",
-  "description": "Human-AI Collaboration for Counter Speech against Hate Speech",
+  "description": "Human-AI Collaboration in Counterspeech Generation: Browser Extension to Support Users in Responding to Online Hate Speech",
   "background": {
     "service_worker": "background.js"
   },
   "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
+    "storage"
   ],
   "host_permissions": [
     "https://counterspeechextension-production.up.railway.app/*"

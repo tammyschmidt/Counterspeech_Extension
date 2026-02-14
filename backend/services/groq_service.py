@@ -126,7 +126,6 @@ class GroqService:
             "   - If the user requested placeholders, explicitly insert clear placeholder segments "
             '     like "[YOUR EXPERIENCE HERE]" or "[ADD PERSONAL DETAIL HERE]" where personal '
             "     stories or details should be added by the user later.\n"
-            "  "
             "6) Generate three CS suggestions following the priority order: "
             "Safeguards > User input > Retrieved examples > Default guidelines."
         )
