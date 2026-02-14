@@ -1,9 +1,11 @@
 body {
-    width: 100%;
+    width: 420px;   
+    min-width: 420px;
+    min-height: 680px;
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #ffedd2;
 }
 
 .container {
@@ -17,14 +19,14 @@ body {
 .header-block h1 {
     margin: 0 0 4px 0;
     font-size: 19px;
-    color: #333;
+    color: #ffb13b;
     text-align: center;
 }
 
 .header-block .subtitle {
     margin: 0 0 6px 0;
     font-size: 13px;
-    color: #666;
+    color: #5e7afe;
     text-align: center;
     font-style: italic;
 }
@@ -55,10 +57,10 @@ h1 {
 
 .info-btn {
     padding: 6px 12px;
-    border: 1px solid #4a90e2;
+    border: 1px solid #5e7afe;
     border-radius: 4px;
-    background-color: white;
-    color: #4a90e2;
+    background-color: #5e7afe;
+    color: white;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
@@ -67,13 +69,14 @@ h1 {
 }
 
 .info-btn:hover {
-    background-color: #f0f7ff;
+    background-color: #ffb13b;
+    border: 1px solid #ffb13b;
 }
 
 h3 {
     margin: 0 0 10px 0;
     font-size: 15px;
-    color: #333;
+    color: #000000;
     font-weight: 600;
 }
 
@@ -89,7 +92,7 @@ h3 {
 h2 {
     margin: 20px 0 10px 0;
     font-size: 16px;
-    color: #333;
+    color: #000000;
 }
 
 .form-section {
@@ -101,7 +104,7 @@ label {
     margin-bottom: 4px;
     font-size: 13px;
     font-weight: 500;
-    color: #555;
+    color: #1e1e1e;
 }
 
 textarea {
@@ -117,7 +120,7 @@ textarea {
 
 textarea:focus {
     outline: none;
-    border-color: #4a90e2;
+    border-color: #5e7afe;
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
 }
 
@@ -130,7 +133,7 @@ textarea:focus {
 .role-option {
     flex: 1;
     padding: 8px 10px;
-    border: 2px solid #ddd;
+    border: 2px solid #5e7afe;
     border-radius: 4px;
     font-size: 12px;
     font-family: inherit;
@@ -143,19 +146,19 @@ textarea:focus {
 }
 
 .role-option:hover {
-    border-color: #4a90e2;
-    background-color: #f0f7ff;
+    border-color: #5e7afe;
+    background-color: #dce2ff;
 }
 
 .role-option.selected {
-    border-color: #4a90e2;
-    background-color: #4a90e2;
+    border-color: #5e7afe;
+    background-color:#5e7afe;
     color: white;
 }
 
 .role-option.selected:hover {
-    background-color: #357abd;
-    border-color: #357abd;
+    background-color: #5e7afe;
+    border-color: #5e7afe;
 }
 
 .style-options {
@@ -167,7 +170,7 @@ textarea:focus {
 .style-option {
     flex: 1;
     padding: 8px 10px;
-    border: 2px solid #ddd;
+    border: 2px solid #5e7afe;
     border-radius: 4px;
     font-size: 12px;
     font-family: inherit;
@@ -180,19 +183,19 @@ textarea:focus {
 }
 
 .style-option:hover {
-    border-color: #4a90e2;
-    background-color: #f0f7ff;
+    border-color: #5e7afe;
+    background-color: #dce2ff;
 }
 
 .style-option.selected {
-    border-color: #4a90e2;
-    background-color: #4a90e2;
+    border-color: #5e7afe;
+    background-color: #5e7afe;
     color: white;
 }
 
 .style-option.selected:hover {
-    background-color: #357abd;
-    border-color: #357abd;
+    background-color: #5e7afe;
+    border-color: #5e7afe;
 }
 
 .slider-container {
@@ -204,7 +207,7 @@ textarea:focus {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #ddd;
+    background: #dce2ff;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -217,7 +220,7 @@ textarea:focus {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #4a90e2;
+    background: #5e7afe;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -227,7 +230,7 @@ textarea:focus {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #4a90e2;
+    background: #5e7afe;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -250,7 +253,7 @@ textarea:focus {
     justify-content: space-between;
     margin-top: 6px;
     font-size: 11px;
-    color: #666;
+    color: #000000;
 }
 
 .slider-labels span {
@@ -261,13 +264,13 @@ textarea:focus {
 
 .slider-labels #length-value {
     font-weight: 600;
-    color: #4a90e2;
+    color: #ffb13b;
 }
 
 .generate-btn {
     width: 100%;
     padding: 12px;
-    background-color: #4a90e2;
+    background-color: #ffb13b;
     color: white;
     border: none;
     border-radius: 4px;
@@ -279,22 +282,22 @@ textarea:focus {
 }
 
 .generate-btn:hover {
-    background-color: #357abd;
+    background-color: #5e7afe;
 }
 
 .generate-btn:active {
-    background-color: #2d6ba0;
+    background-color: #5e7afe;
 }
 
 .generate-btn:disabled {
-    background-color: #ccc;
+    background-color: #dce2ff;
     cursor: not-allowed;
 }
 
 .loading {
     text-align: center;
     padding: 20px;
-    color: #666;
+    color: #000000;
     font-size: 13px;
 }
 
@@ -309,7 +312,7 @@ textarea:focus {
 
 .suggestion-item {
     background-color: white;
-    border: 1px solid #ddd;
+    border: 1px solid #ffb13b;
     border-radius: 4px;
     padding: 12px;
     margin-bottom: 12px;
@@ -340,33 +343,33 @@ textarea:focus {
 
 .btn-edit {
     background-color: white;
-    color: #4a90e2;
-    border-color: #4a90e2;
+    color: #5e7afe;
+    border-color: #5e7afe;
 }
 
 .btn-edit:hover {
-    background-color: #f0f7ff;
+    background-color: #dce2ff;
 }
 
 .btn-copy {
-    background-color: #4a90e2;
+    background-color: #5e7afe;
     color: white;
-    border-color: #4a90e2;
+    border-color: #5e7afe;
 }
 
 .btn-copy:hover {
-    background-color: #357abd;
+    background-color: #5e7afe;
 }
 
 .btn-copy.copied {
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #ffb13b;
+    border-color: #ffb13b;
 }
 
 /* Info Page Styles */
 .consent-intro {
     font-size: 13px;
-    color: #666;
+    color: #414141;
     line-height: 1.6;
     margin: 0 0 20px 0;
     padding: 0;
@@ -441,7 +444,7 @@ textarea:focus {
 }
 
 .toggle-switch input[type="checkbox"]:checked + .toggle-slider {
-    background-color: #4a90e2;
+    background-color: #5e7afe;
 }
 
 .toggle-switch input[type="checkbox"]:checked + .toggle-slider::before {
@@ -450,7 +453,7 @@ textarea:focus {
 
 .toggle-label {
     font-size: 12px;
-    color: #666;
+    color: #000000;
     font-weight: 500;
 }
 
@@ -479,8 +482,8 @@ textarea:focus {
     height: 16px;
     font-size: 12px;
     font-weight: 600;
-    color: #4a90e2;
-    background-color: #e8f1fc;
+    color: #5e7afe;
+    background-color: #dce2ff;
     border-radius: 50%;
     cursor: help;
     flex-shrink: 0;

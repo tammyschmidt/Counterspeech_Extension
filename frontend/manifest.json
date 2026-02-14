@@ -3,9 +3,6 @@
   "name": "Counter Speech Extension",
   "version": "1.0.0",
   "description": "Human-AI Collaboration for Counter Speech against Hate Speech",
-  "action": {
-    "default_title": "Counter Speech"
-  },
   "background": {
     "service_worker": "background.js"
   },
@@ -17,10 +14,17 @@
   "host_permissions": [
     "https://counterspeechextension-production.up.railway.app/*"
   ],
-  "web_accessible_resources": [
-    {
-      "resources": ["popup.html", "popup.css", "popup.js"],
-      "matches": ["<all_urls>"]
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+    },
+  "action": {
+  "default_popup": "popup.html",
+  "default_icon": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
     }
-  ]
+  }
 }
