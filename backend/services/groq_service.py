@@ -28,6 +28,7 @@ class GroqService:
         writing_style: str = "formal",
         length: int = 3,
         examples: Optional[List[Dict[str, str]]] = None,
+        use_placeholders: bool = False,
     ) -> List[str]:
         """
         Generate counter speech suggestions based on the hateful comment.
@@ -44,6 +45,7 @@ class GroqService:
             List of counter speech suggestions parsed from the LLM response.
         """
 
+        placeholders_pref, placeholders_output = self._format_placeholders(use_placeholders)
         messages = self.prompt_template.format_messages(
             hateful_comment=hateful_comment.strip(),
             role=role,
@@ -51,6 +53,8 @@ class GroqService:
             length=self._format_length(length),
             additional_input=self._format_additional_input(additional_input),
             examples_text=self._format_examples(examples),
+            placeholders_preference=placeholders_pref,
+            placeholders_output_instruction=placeholders_output,
         )
 
         response = self.llm.invoke(messages)
@@ -100,12 +104,13 @@ class GroqService:
             "Writing style: {writing_style}\n"
             "Response length: {length}\n"
             "Free text user input: {additional_input}\n"
+            "Placeholder preference: {placeholders_preference}\n"
             "Retrieved examples:\n{examples_text}\n\n"
             "Output format: Generate three distinct CS suggestions responding "
             "to the HS. Number them 1., 2., 3. and return only these three "
             "items. Each suggestion should be a self-contained paragraph with "
             "the length specified above ({length}). Be natural and clear. "
-            "Avoid quoting the HS verbatim, especially slurs.\n\n"
+            "Avoid quoting the HS verbatim, especially slurs. {placeholders_output_instruction}\n\n"
             "Instructions:\n"
             "1) Identify the target group/person and the implied negative "
             "attitude or stereotype.\n"
@@ -117,7 +122,12 @@ class GroqService:
             "that guidance.\n"
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
-            "5) Generate three CS suggestions following the priority order: "
+            "5) Check the placeholder preference:{placeholders_preference} "
+            "   - If the user requested placeholders, explicitly insert clear placeholder segments "
+            '     like "[YOUR EXPERIENCE HERE]" or "[ADD PERSONAL DETAIL HERE]" where personal '
+            "     stories or details should be added by the user later.\n"
+            "  "
+            "6) Generate three CS suggestions following the priority order: "
             "Safeguards > User input > Retrieved examples > Default guidelines."
         )
 
@@ -163,6 +173,24 @@ class GroqService:
             formatted_blocks.append(block.strip())
 
         return "\n\n".join(formatted_blocks)
+
+    def _format_placeholders(self, use_placeholders: bool) -> tuple:
+        """Return (preference description, output format instruction) for placeholders."""
+        if use_placeholders:
+            pref = (
+                "YES - User requested placeholders. You MUST insert placeholder segments "
+                '(e.g. "[YOUR EXPERIENCE HERE]", "[ADD PERSONAL DETAIL HERE]") where the user '
+                "should fill in personal stories or details. Each suggestion MUST contain at least one placeholder."
+            )
+            output_instr = (
+                "CRITICAL: Each of the three suggestions MUST include at least one explicit placeholder "
+                'in square brackets, e.g. [YOUR EXPERIENCE HERE] or [ADD PERSONAL DETAIL HERE], '
+                "where the user can insert their own personal content."
+            )
+            return pref, output_instr
+        pref = "NO - Write complete, ready-to-post suggestions without any placeholder markers."
+        output_instr = "Do not include placeholder markers in the suggestions."
+        return pref, output_instr
 
     def _parse_suggestions(self, response_text: str) -> List[str]:
         """Parse the LLM response to extract exactly three suggestions."""

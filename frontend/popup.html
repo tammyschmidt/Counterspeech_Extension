@@ -8,39 +8,38 @@
 </head>
 <body>
     <div class="container">
-        <h1>Counterspeech Writing Assistant</h1>
-        <p class="subtitle">Let's fight hate speech together!</p>
-        
-        <!-- Window/Tab Bar -->
-        <div class="window-bar">
-            <button class="window-tab active" data-window="generation">Counterspeech Generation</button>
-            <button class="window-tab" data-window="info">Info</button>
+        <div class="header-block">
+            <h1>Counterspeech Writing Assistant</h1>
+            <p class="subtitle">Let's fight hate speech together!</p>
+            <div class="header-actions">
+                <button type="button" id="info-btn" class="info-btn">Info</button>
+            </div>
         </div>
 
         <!-- Counterspeech Generation Window -->
         <div id="generation-window" class="window-content active">
             <div class="form-section">
-            <label for="hateful-comment">Hateful Comment *</label>
-            <textarea 
-                id="hateful-comment" 
-                placeholder="Paste the hateful comment here."
-                rows="4"
-                required
-            ></textarea>
-        </div>
+                <label for="hateful-comment">Hateful Comment *</label>
+                <textarea 
+                    id="hateful-comment" 
+                    placeholder="Paste the hateful comment here."
+                    rows="4"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-section">
+                <label for="additional-input">Your Input for the Counterspeech*</label>
+                <textarea 
+                    id="additional-input" 
+                    placeholder="Add ideas, text snippets or personal experiences..."
+                    rows="3"
+                    required
+                ></textarea>
+            </div>
 
         <div class="form-section">
-            <label for="additional-input">Additional Input *</label>
-            <textarea 
-                id="additional-input" 
-                placeholder="Add ideas, text snippets or personal experiences..."
-                rows="3"
-                required
-            ></textarea>
-        </div>
-
-        <div class="form-section">
-            <label>Your Role *</label>
+            <label>Your Role * <span class="info-icon" title="Direct Target: You are the person directly attacked by the hate speech. Target Group Member: You belong to the group being targeted. Ally: You support the targeted group or person but are not yourself the target." aria-label="Info">ℹ</span></label>
             <div class="role-options">
                 <button type="button" class="role-option" data-role="target">Direct Target</button>
                 <button type="button" class="role-option" data-role="target-group">Target Group Member</button>
@@ -76,6 +75,14 @@
                 </div>
             </div>
         </div>
+
+            <div class="form-section form-section-placeholder">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="use-placeholders">
+                    <span>Use placeholders for personal details</span>
+                    <span class="info-icon" title="When enabled, suggestions include placeholder segments you can later replace with your own experiences or details." aria-label="Info">ℹ</span>
+                </label>
+            </div>
 
         <button id="generate-btn" class="generate-btn">Generate Responses</button>
 

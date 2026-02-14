@@ -26,7 +26,7 @@
       display: flex;
       justify-content: flex-end;
       align-items: flex-start;
-      padding: 60px 16px 16px;
+      padding: 8px 16px 5px;
       box-sizing: border-box;
       z-index: 2147483647;
       pointer-events: none;
@@ -36,11 +36,11 @@
     const panelWrapper = document.createElement('div');
     panelWrapper.style.cssText = `
       position: relative;
-      width: 432px;
+      width: 400px;
       max-width: calc(100vw - 32px);
-      max-height: calc(100vh - 80px);
+      max-height: calc(100vh - 13px);
       background: #f5f5f5;
-      border-radius: 8px;
+      border-radius: 0 0 8px 8px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.15);
       pointer-events: auto;
       overflow: hidden;
@@ -89,7 +89,7 @@
     iframe.src = POPUP_URL;
     iframe.style.cssText = `
       width: 100%;
-      height: min(90vh, 700px);
+      height: min(calc(100vh - 21px), 720px);
       border: none;
       display: block;
     `;

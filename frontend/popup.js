@@ -9,6 +9,7 @@ const API_BASE_URL = 'https://counterspeechextension-production.up.railway.app/a
 // DOM Elements
 const hatefulCommentInput = document.getElementById('hateful-comment');
 const additionalInputInput = document.getElementById('additional-input');
+const usePlaceholdersCheckbox = document.getElementById('use-placeholders');
 const roleOptions = document.querySelectorAll('.role-option');
 const writingStyleOptions = document.querySelectorAll('.style-option');
 const lengthSlider = document.getElementById('length-slider');
@@ -18,10 +19,10 @@ const loadingDiv = document.getElementById('loading');
 const suggestionsDiv = document.getElementById('suggestions');
 const suggestionsList = document.getElementById('suggestions-list');
 
-// Window/Tab Elements
-const windowTabs = document.querySelectorAll('.window-tab');
+// Window Elements
 const generationWindow = document.getElementById('generation-window');
 const infoWindow = document.getElementById('info-window');
+const headerBtn = document.getElementById('info-btn');
 
 // Consent Elements
 const consentPrivacy = document.getElementById('consent-privacy');
@@ -145,26 +146,26 @@ if (document.readyState === 'loading') {
     initialize();
 }
 
-// Tab switching functionality
-windowTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const targetWindow = tab.getAttribute('data-window');
-        
-        // Update active tab
-        windowTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        
-        // Update active window
-        generationWindow.classList.remove('active');
-        infoWindow.classList.remove('active');
-        
-        if (targetWindow === 'generation') {
-            generationWindow.classList.add('active');
-        } else if (targetWindow === 'info') {
-            infoWindow.classList.add('active');
+// Show info / generation windows
+function showInfoWindow() {
+    generationWindow.classList.remove('active');
+    infoWindow.classList.add('active');
+    if (headerBtn) headerBtn.textContent = 'Back to Generator';
+}
+function showGenerationWindow() {
+    infoWindow.classList.remove('active');
+    generationWindow.classList.add('active');
+    if (headerBtn) headerBtn.textContent = 'Info';
+}
+if (headerBtn) {
+    headerBtn.addEventListener('click', () => {
+        if (infoWindow.classList.contains('active')) {
+            showGenerationWindow();
+        } else {
+            showInfoWindow();
         }
     });
-});
+}
 
 // Consent toggle handlers - attach after ensuring elements exist
 if (consentPrivacy) {
@@ -207,43 +208,31 @@ const initialValue = parseInt(lengthSlider.value);
 const initialLabel = lengthLabels[initialValue] || lengthLabels[2];
 lengthValueDisplay.innerHTML = `${initialLabel.name}<br>${initialLabel.description}`;
 
-// Role selection handlers
-roleOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        // Remove selected class from all options
-        roleOptions.forEach(opt => opt.classList.remove('selected'));
-        // Add selected class to clicked option
-        option.classList.add('selected');
-        // Store selected role value
-        selectedRole = option.getAttribute('data-role');
+// Role and Writing style selection handlers (event delegation for reliability in iframe)
+if (generationWindow) {
+    generationWindow.addEventListener('click', (e) => {
+        const roleOpt = e.target.closest('.role-option');
+        if (roleOpt) {
+            document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
+            roleOpt.classList.add('selected');
+            selectedRole = roleOpt.getAttribute('data-role');
+            return;
+        }
+        const styleOpt = e.target.closest('.style-option');
+        if (styleOpt) {
+            document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
+            styleOpt.classList.add('selected');
+            selectedWritingStyle = styleOpt.getAttribute('data-style');
+        }
     });
-});
-
-// Writing style selection handlers
-writingStyleOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        // Remove selected class from all options
-        writingStyleOptions.forEach(opt => opt.classList.remove('selected'));
-        // Add selected class to clicked option
-        option.classList.add('selected');
-        // Store selected writing style value
-        selectedWritingStyle = option.getAttribute('data-style');
-    });
-});
+}
 
 // Generate button click handler
 generateBtn.addEventListener('click', async () => {
     // Check consent first
     if (!hasAllConsents()) {
         alert('Please first give your consent on the info page.');
-        // Switch to info tab
-        windowTabs.forEach(t => t.classList.remove('active'));
-        const infoTab = document.querySelector('.window-tab[data-window="info"]');
-        if (infoTab) {
-            infoTab.classList.add('active');
-            generationWindow.classList.remove('active');
-            infoWindow.classList.add('active');
-        }
+        showInfoWindow();
         return;
     }
 
@@ -279,7 +268,8 @@ generateBtn.addEventListener('click', async () => {
                 additional_input: additionalInputInput.value || null,
                 role: selectedRole,
                 writing_style: selectedWritingStyle,
-                length: parseInt(lengthSlider.value)
+                length: parseInt(lengthSlider.value),
+                use_placeholders: document.getElementById('use-placeholders')?.checked ?? false
             })
         });
 

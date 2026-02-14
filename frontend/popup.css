@@ -1,5 +1,5 @@
 body {
-    width: 400px;
+    width: 100%;
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -7,7 +7,35 @@ body {
 }
 
 .container {
-    padding: 20px;
+    padding: 16px 18px 16px 18px;
+}
+
+.header-block {
+    margin-bottom: 8px;
+}
+
+.header-block h1 {
+    margin: 0 0 4px 0;
+    font-size: 19px;
+    color: #333;
+    text-align: center;
+}
+
+.header-block .subtitle {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header-block .info-btn {
+    margin-top: 4px;
 }
 
 h1 {
@@ -25,46 +53,27 @@ h1 {
     font-style: italic;
 }
 
+.info-btn {
+    padding: 6px 12px;
+    border: 1px solid #4a90e2;
+    border-radius: 4px;
+    background-color: white;
+    color: #4a90e2;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.info-btn:hover {
+    background-color: #f0f7ff;
+}
+
 h3 {
     margin: 0 0 10px 0;
     font-size: 15px;
     color: #333;
-    font-weight: 600;
-}
-
-/* Window/Tab Bar */
-.window-bar {
-    display: flex;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
-    background-color: white;
-    border-radius: 4px 4px 0 0;
-    overflow: hidden;
-}
-
-.window-tab {
-    flex: 1;
-    padding: 12px 16px;
-    border: none;
-    background-color: #f5f5f5;
-    color: #666;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    border-bottom: 2px solid transparent;
-    font-family: inherit;
-}
-
-.window-tab:hover {
-    background-color: #e8e8e8;
-    color: #333;
-}
-
-.window-tab.active {
-    background-color: white;
-    color: #4a90e2;
-    border-bottom-color: #4a90e2;
     font-weight: 600;
 }
 
@@ -84,12 +93,12 @@ h2 {
 }
 
 .form-section {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     font-size: 13px;
     font-weight: 500;
     color: #555;
@@ -97,7 +106,7 @@ label {
 
 textarea {
     width: 100%;
-    padding: 8px;
+    padding: 7px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 13px;
@@ -115,15 +124,15 @@ textarea:focus {
 .role-options {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: 7px;
 }
 
 .role-option {
     flex: 1;
-    padding: 10px;
+    padding: 8px 10px;
     border: 2px solid #ddd;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 12px;
     font-family: inherit;
     background-color: white;
     color: #333;
@@ -152,15 +161,15 @@ textarea:focus {
 .style-options {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    gap: 7px;
 }
 
 .style-option {
     flex: 1;
-    padding: 10px;
+    padding: 8px 10px;
     border: 2px solid #ddd;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 12px;
     font-family: inherit;
     background-color: white;
     color: #333;
@@ -188,7 +197,7 @@ textarea:focus {
 
 .slider-container {
     width: 100%;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .length-slider {
@@ -239,7 +248,7 @@ textarea:focus {
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: 11px;
     color: #666;
 }
@@ -265,7 +274,7 @@ textarea:focus {
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
     transition: background-color 0.2s;
 }
 
@@ -443,4 +452,36 @@ textarea:focus {
     font-size: 12px;
     color: #666;
     font-weight: 500;
+}
+
+/* Placeholder toggle with info icon */
+.form-section-placeholder .checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.form-section-placeholder .checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+}
+
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4a90e2;
+    background-color: #e8f1fc;
+    border-radius: 50%;
+    cursor: help;
+    flex-shrink: 0;
 }
