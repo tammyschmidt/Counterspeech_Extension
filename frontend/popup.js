@@ -1,4 +1,4 @@
-// Counter Speech Extension - Popup Script
+// Counterspeech Extension - Popup Script
 
 console.log('Counter Speech Extension loaded');
 
@@ -9,31 +9,31 @@ const API_BASE_URL = 'https://counterspeechextension-production.up.railway.app/a
 // DOM Elements
 const hatefulCommentInput = document.getElementById('hateful-comment');
 const additionalInputInput = document.getElementById('additional-input');
-const usePlaceholdersCheckbox = document.getElementById('use-placeholders');
 const roleOptions = document.querySelectorAll('.role-option');
 const writingStyleOptions = document.querySelectorAll('.style-option');
 const lengthSlider = document.getElementById('length-slider');
 const lengthValueDisplay = document.getElementById('length-value');
+const usePlaceholdersCheckbox = document.getElementById('use-placeholders');
 const generateBtn = document.getElementById('generate-btn');
 const loadingDiv = document.getElementById('loading');
 const suggestionsDiv = document.getElementById('suggestions');
 const suggestionsList = document.getElementById('suggestions-list');
 
 // Window Elements
+const headerBtn = document.getElementById('info-btn');
 const generationWindow = document.getElementById('generation-window');
 const infoWindow = document.getElementById('info-window');
-const headerBtn = document.getElementById('info-btn');
-
-// Consent Elements
-const consentPrivacy = document.getElementById('consent-privacy');
-const consentAccountability = document.getElementById('consent-accountability');
-const consentEthical = document.getElementById('consent-ethical');
 
 // Selected role
 let selectedRole = null;
 
 // Selected writing style
 let selectedWritingStyle = null;
+
+// Consent Elements
+const consentPrivacy = document.getElementById('consent-privacy');
+const consentAccountability = document.getElementById('consent-accountability');
+const consentEthical = document.getElementById('consent-ethical');
 
 // Consent state
 let consentState = {
@@ -45,13 +45,10 @@ let consentState = {
 // Helper function to safely access chrome.storage
 function getStorage() {
     try {
-        // In Chrome extensions, chrome should be globally available
-        // Check if chrome and chrome.storage.local exist
         if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
             return chrome.storage.local;
         }
-        
-        // Fallback to window.chrome if needed
+
         if (typeof window !== 'undefined' && window.chrome && window.chrome.storage && window.chrome.storage.local) {
             return window.chrome.storage.local;
         }
@@ -85,7 +82,7 @@ async function loadConsentState() {
             consentState.ethical = result.consentEthical;
         }
         
-        // Update checkboxes if they exist
+
         if (consentPrivacy) {
             consentPrivacy.checked = consentState.privacy;
         }
@@ -119,7 +116,6 @@ async function saveConsentState() {
         await storage.set(data);
         console.log('Consent state saved:', data);
         
-        // Verify it was saved
         const verify = await storage.get(['consentPrivacy', 'consentAccountability', 'consentEthical']);
         console.log('Consent state verified:', verify);
     } catch (error) {
@@ -134,7 +130,6 @@ function hasAllConsents() {
 
 // Initialize everything when DOM is ready
 function initialize() {
-    // Load consent state
     loadConsentState();
 }
 
@@ -142,32 +137,11 @@ function initialize() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initialize);
 } else {
-    // DOM is already ready
     initialize();
 }
 
-// Show info / generation windows
-function showInfoWindow() {
-    generationWindow.classList.remove('active');
-    infoWindow.classList.add('active');
-    if (headerBtn) headerBtn.textContent = 'Back to Generator';
-}
-function showGenerationWindow() {
-    infoWindow.classList.remove('active');
-    generationWindow.classList.add('active');
-    if (headerBtn) headerBtn.textContent = 'Info';
-}
-if (headerBtn) {
-    headerBtn.addEventListener('click', () => {
-        if (infoWindow.classList.contains('active')) {
-            showGenerationWindow();
-        } else {
-            showInfoWindow();
-        }
-    });
-}
 
-// Consent toggle handlers - attach after ensuring elements exist
+// Consent toggle handlers
 if (consentPrivacy) {
     consentPrivacy.addEventListener('change', (e) => {
         consentState.privacy = e.target.checked;
@@ -186,6 +160,27 @@ if (consentEthical) {
     consentEthical.addEventListener('change', (e) => {
         consentState.ethical = e.target.checked;
         saveConsentState();
+    });
+}
+
+// Show different windows
+function showInfoWindow() {
+    generationWindow.classList.remove('active');
+    infoWindow.classList.add('active');
+    if (headerBtn) headerBtn.textContent = 'Back to Generator';
+}
+function showGenerationWindow() {
+    infoWindow.classList.remove('active');
+    generationWindow.classList.add('active');
+    if (headerBtn) headerBtn.textContent = 'Info';
+}
+if (headerBtn) {
+    headerBtn.addEventListener('click', () => {
+        if (infoWindow.classList.contains('active')) {
+            showGenerationWindow();
+        } else {
+            showInfoWindow();
+        }
     });
 }
 
@@ -208,7 +203,7 @@ const initialValue = parseInt(lengthSlider.value);
 const initialLabel = lengthLabels[initialValue] || lengthLabels[2];
 lengthValueDisplay.innerHTML = `${initialLabel.name}<br>${initialLabel.description}`;
 
-// Role and Writing style selection handlers (event delegation for reliability in iframe)
+// Role and Writing style selection handlers
 if (generationWindow) {
     generationWindow.addEventListener('click', (e) => {
         const roleOpt = e.target.closest('.role-option');
@@ -239,6 +234,11 @@ generateBtn.addEventListener('click', async () => {
     // Validate inputs
     if (!hatefulCommentInput.value.trim()) {
         alert('Please paste a hateful comment first.');
+        return;
+    }
+
+    if (!additionalInputInput.value.trim()) {
+        alert('Please give your input first.');
         return;
     }
 
@@ -352,6 +352,5 @@ function displaySuggestions(suggestions) {
     });
     
     suggestionsDiv.classList.remove('hidden');
-    // Bring suggestions into view so the user does not miss them
     suggestionsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

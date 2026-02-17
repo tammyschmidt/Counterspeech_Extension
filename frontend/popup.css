@@ -1,3 +1,5 @@
+/*  Counterspeech Extension - Style Script */
+
 body {
     width: 420px;   
     min-width: 420px;
@@ -11,6 +13,8 @@ body {
 .container {
     padding: 16px 18px 16px 18px;
 }
+
+/* Header Style */
 
 .header-block {
     margin-bottom: 8px;
@@ -80,7 +84,7 @@ h3 {
     font-weight: 600;
 }
 
-/* Window Content */
+/* Generation Window Style */
 .window-content {
     display: none;
 }
@@ -267,7 +271,6 @@ textarea:focus {
     color: #ffb13b;
 }
 
-/* Placeholder toggle with info icon */
 .form-section-placeholder .checkbox-label {
     display: inline-flex;
     align-items: center;
@@ -340,7 +343,7 @@ textarea:focus {
 
 .suggestions {
     margin-top: 20px;
-    scroll-margin-top: 30px; /* leave header visible when auto-scrolling */
+    scroll-margin-top: 30px;
 }
 
 .suggestion-item {
@@ -399,7 +402,7 @@ textarea:focus {
     border-color: #ffb13b;
 }
 
-/* Info Page Styles */
+/* Info Window Style */
 .consent-intro {
     font-size: 13px;
     color: #414141;

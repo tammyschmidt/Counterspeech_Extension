@@ -6,14 +6,13 @@
   
     let overlay = document.getElementById(OVERLAY_ID);
   
+    // Clear input after re-opening
     if (overlay) {
-      // If overlay already exists, remove it completely so a fresh
-      // instance (with cleared inputs) is created next time.
       overlay.remove();
       return;
     }
   
-    // Create overlay container (transparent - clicks outside pass through to page)
+    // Create overlay container
     overlay = document.createElement('div');
     overlay.id = OVERLAY_ID;
     overlay.style.cssText = `
@@ -31,7 +30,7 @@
       pointer-events: none;
     `;
   
-    // Create panel wrapper (enables pointer events for the panel only)
+    // Create panel wrapper
     const panelWrapper = document.createElement('div');
     panelWrapper.style.cssText = `
       position: relative;
@@ -78,8 +77,6 @@
       closeBtn.style.color = '#666';
     });
     closeBtn.addEventListener('click', () => {
-      // Remove the overlay entirely so that reopening creates
-      // a fresh iframe with empty inputs and default state.
       overlay.remove();
     });
   
