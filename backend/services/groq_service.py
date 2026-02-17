@@ -51,7 +51,7 @@ class GroqService:
             length=self._format_length(length),
             additional_input=self._format_additional_input(additional_input),
             examples_text=self._format_examples(examples),
-            use_placeholders=use_placeholders,
+            placeholders_prompt=self._format_placeholders(use_placeholders),
         )
 
         response = self.llm.invoke(messages)
@@ -97,16 +97,12 @@ class GroqService:
         )
         prompt_content = (
             "Hate speech comment: {hateful_comment}\n"
-            "Role of responder: {role}\n"
-            "Writing style: {writing_style}\n"
-            "Response length: {length}\n"
             "Free text user input: {additional_input}\n"
-            "Placeholder preference: {use_placeholders}\n"
             "Retrieved examples:\n{examples_text}\n\n"
             "Output format: Generate three distinct CS suggestions responding "
             "to the HS. Number them 1., 2., 3. and return only these three "
             "items. Each suggestion should be a self-contained paragraph with "
-            "the following length: {length}. Be natural and clear.\n\n"
+            "the specified length: {length}. Be natural and clear.\n\n"
             "Instructions:\n"
             "1) Identify the target group/person and the implied negative "
             "attitude or stereotype.\n"
@@ -118,12 +114,9 @@ class GroqService:
             "that guidance.\n"
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
-            "5) Check if user requests placeholders: {use_placeholders} "
-            "   - If, and ONLY IF, this is True, you MUST insert placeholder segments "
-            '     like "[YOUR EXPERIENCE HERE]" or "[ADD PERSONAL DETAIL HERE]" where personal '
-            "     stories or details should be added by the user later (at least one per suggestion).\n"
-            "   - If it is False, write complete and fluent suggestions.\n"
-            "6) Generate three CS suggestions following this priority order: "
+            "5) Consider the role of the responder ({role}) and requested writing style ({writing_style})."
+            "6) {placeholders_prompt}"
+            "7) Generate three CS suggestions following this priority order: "
             "Safeguards > Default guidelines > User input > Retrieved examples."
         )
 
@@ -150,6 +143,14 @@ class GroqService:
         if additional_input and additional_input.strip():
             return additional_input.strip()
         return "No additional context provided."
+
+    def _format_placeholders(self, use_placeholders: bool) -> str:
+        """Return (preference description, output format instruction) for placeholders."""
+        if use_placeholders:
+            return "User requested placeholders. Each of the three suggestions MUST include at least one explicit placeholder "
+                'in square brackets, e.g. [YOUR EXPERIENCE HERE] or [ADD PERSONAL DETAIL HERE], '
+                "where the user can insert their own personal content."
+        return "Write complete phrases."   
 
     def _format_examples(
         self, examples: Optional[List[Dict[str, str]]]
