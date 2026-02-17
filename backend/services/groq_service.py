@@ -14,7 +14,7 @@ class GroqService:
         self.llm = ChatGroq(
             groq_api_key=GROQ_API_KEY,
             model_name=GROQ_MODEL,
-            temperature=1,
+            temperature=1.0,
         )
         self.prompt_template = self._build_prompt_template()
 
@@ -37,7 +37,7 @@ class GroqService:
             role: User's role ('target', 'target-group', or 'ally').
             writing_style: Writing style ('formal' or 'familiar').
             length: Response length on a scale of 1-3 (1=Short 20-40 words, 2=Medium 40-80 words, 3=Long 80-120 words).
-            use_placeholders: Whether to include placeholder that users can fill with personal details (True or False)
+            use_placeholders: Whether to include placeholders that users can fill with personal details (True or False).
             examples: Optional list of similar examples from CONAN dataset.
 
         Returns:
@@ -51,7 +51,7 @@ class GroqService:
             length=self._format_length(length),
             additional_input=self._format_additional_input(additional_input),
             examples_text=self._format_examples(examples),
-            use_placeholders=use_placeholders_pref,
+            use_placeholders=use_placeholders,
         )
 
         response = self.llm.invoke(messages)
@@ -101,7 +101,7 @@ class GroqService:
             "Writing style: {writing_style}\n"
             "Response length: {length}\n"
             "Free text user input: {additional_input}\n"
-            "Placeholder preference: {placeholders_preference}\n"
+            "Placeholder preference: {use_placeholders}\n"
             "Retrieved examples:\n{examples_text}\n\n"
             "Output format: Generate three distinct CS suggestions responding "
             "to the HS. Number them 1., 2., 3. and return only these three "
