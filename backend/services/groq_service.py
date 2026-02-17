@@ -1,10 +1,8 @@
 # Groq API service for LLM integration
 
 from typing import Dict, List, Optional
-
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-
 from config import GROQ_API_KEY, GROQ_MODEL
 
 
@@ -16,7 +14,7 @@ class GroqService:
         self.llm = ChatGroq(
             groq_api_key=GROQ_API_KEY,
             model_name=GROQ_MODEL,
-            temperature=0.7,
+            temperature=1,
         )
         self.prompt_template = self._build_prompt_template()
 
@@ -27,25 +25,25 @@ class GroqService:
         role: str = "ally",
         writing_style: str = "formal",
         length: int = 3,
-        examples: Optional[List[Dict[str, str]]] = None,
         use_placeholders: bool = False,
+        examples: Optional[List[Dict[str, str]]] = None,
     ) -> List[str]:
         """
-        Generate counter speech suggestions based on the hateful comment.
+        Generate counterspeech suggestions based on the hateful comment.
 
         Args:
             hateful_comment: The hateful comment to respond to.
-            additional_input: Optional additional context from the user.
+            additional_input: Additional context from the user.
             role: User's role ('target', 'target-group', or 'ally').
             writing_style: Writing style ('formal' or 'familiar').
             length: Response length on a scale of 1-3 (1=Short 20-40 words, 2=Medium 40-80 words, 3=Long 80-120 words).
+            use_placeholders: Whether to include placeholder that users can fill with personal details (True or False)
             examples: Optional list of similar examples from CONAN dataset.
 
         Returns:
             List of counter speech suggestions parsed from the LLM response.
         """
 
-        placeholders_pref, placeholders_output = self._format_placeholders(use_placeholders)
         messages = self.prompt_template.format_messages(
             hateful_comment=hateful_comment.strip(),
             role=role,
@@ -53,8 +51,7 @@ class GroqService:
             length=self._format_length(length),
             additional_input=self._format_additional_input(additional_input),
             examples_text=self._format_examples(examples),
-            placeholders_preference=placeholders_pref,
-            placeholders_output_instruction=placeholders_output,
+            use_placeholders=use_placeholders_pref,
         )
 
         response = self.llm.invoke(messages)
@@ -63,7 +60,7 @@ class GroqService:
         return suggestions
 
     def _build_prompt_template(self) -> ChatPromptTemplate:
-        """Build the prompt template for counter speech generation."""
+        """Build the prompt template for counterspeech generation."""
 
         system_message = (
             "You are a Counterspeech (CS) Writing Assistant. Given a piece of "
@@ -109,25 +106,24 @@ class GroqService:
             "Output format: Generate three distinct CS suggestions responding "
             "to the HS. Number them 1., 2., 3. and return only these three "
             "items. Each suggestion should be a self-contained paragraph with "
-            "the length specified above ({length}). Be natural and clear. "
-            "Avoid quoting the HS verbatim, especially slurs. {placeholders_output_instruction}\n\n"
+            "the following length: {length}. Be natural and clear.\n\n"
             "Instructions:\n"
             "1) Identify the target group/person and the implied negative "
             "attitude or stereotype.\n"
             "2) Recognize the emotional impact the HS may have on the target.\n"
             "3) Consider the style and content of the retrieved examples, if "
             "provided.\n"
-            "4) Check the additional user input, if provided:\n"
+            "4) Check the additional user input, if properly provided:\n"
             "   - If it is about tone/style or other metacommunication, follow "
             "that guidance.\n"
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
-            "5) Check the placeholder preference:{placeholders_preference} "
-            "   - If the user requested placeholders, explicitly insert clear placeholder segments "
+            "5) Check if user requests placeholders: {use_placeholders} "
+            "   - If this is true, explicitly insert placeholder segments "
             '     like "[YOUR EXPERIENCE HERE]" or "[ADD PERSONAL DETAIL HERE]" where personal '
-            "     stories or details should be added by the user later.\n"
-            "6) Generate three CS suggestions following the priority order: "
-            "Safeguards > User input > Retrieved examples > Default guidelines."
+            "     stories or details should be added by the user later. Each suggestion MUST contain at least one placeholder.\n"
+            "6) Generate three CS suggestions following this priority order: "
+            "Safeguards > Default guidelines > User input > Retrieved examples."
         )
 
         template = ChatPromptTemplate.from_messages(
@@ -166,30 +162,13 @@ class GroqService:
             block = (
                 f"Example {idx}:\n"
                 f"Hate speech: {example.get('hate_speech', '').strip()}\n"
-                f"Counter narrative: {example.get('counter_narrative', '').strip()}\n"
+                f"Counterspeech: {example.get('counter_narrative', '').strip()}\n"
                 f"Target: {example.get('target', 'N/A')}\n"
             )
             formatted_blocks.append(block.strip())
 
         return "\n\n".join(formatted_blocks)
 
-    def _format_placeholders(self, use_placeholders: bool) -> tuple:
-        """Return (preference description, output format instruction) for placeholders."""
-        if use_placeholders:
-            pref = (
-                "YES - User requested placeholders. You MUST insert placeholder segments "
-                '(e.g. "[YOUR EXPERIENCE HERE]", "[ADD PERSONAL DETAIL HERE]") where the user '
-                "should fill in personal stories or details. Each suggestion MUST contain at least one placeholder."
-            )
-            output_instr = (
-                "CRITICAL: Each of the three suggestions MUST include at least one explicit placeholder "
-                'in square brackets, e.g. [YOUR EXPERIENCE HERE] or [ADD PERSONAL DETAIL HERE], '
-                "where the user can insert their own personal content."
-            )
-            return pref, output_instr
-        pref = "NO - Write complete, ready-to-post suggestions without any placeholder markers."
-        output_instr = "Do not include placeholder markers in the suggestions."
-        return pref, output_instr
 
     def _parse_suggestions(self, response_text: str) -> List[str]:
         """Parse the LLM response to extract exactly three suggestions."""

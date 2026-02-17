@@ -1,4 +1,4 @@
-"""Retrieval service for CONAN dataset using FAISS."""
+# Example retrieval service for CONAN dataset using FAISS
 
 import csv
 import logging

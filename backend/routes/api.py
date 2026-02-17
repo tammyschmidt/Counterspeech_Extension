@@ -14,7 +14,7 @@ router = APIRouter(prefix="/api", tags=["counter-speech"])
 groq_service = GroqService()
 retrieval_service = RetrievalService()
 
-
+# POST generation request
 @router.post("/generate", response_model=GenerateResponse)
 async def generate_counter_speech(request: GenerateRequest):
     """
@@ -48,7 +48,7 @@ async def generate_counter_speech(request: GenerateRequest):
             hateful_comment=request.hateful_comment
         )
 
-        # Generate counter speech with contextual examples
+        # Generate counterspeech with contextual examples
         suggestions_text = groq_service.generate_counter_speech(
             hateful_comment=request.hateful_comment,
             additional_input=request.additional_input,
@@ -68,13 +68,13 @@ async def generate_counter_speech(request: GenerateRequest):
         return GenerateResponse(suggestions=suggestions)
         
     except Exception as e:
-        logger.error(f"Error generating counter speech: {str(e)}", exc_info=True)
+        logger.error(f"Error generating counterspeech: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=500,
-            detail=f"Error generating counter speech: {str(e)}"
+            detail=f"Error generating counterspeech: {str(e)}"
         )
 
-
+# GET health check
 @router.get("/health")
 async def health_check():
     """Health check endpoint"""

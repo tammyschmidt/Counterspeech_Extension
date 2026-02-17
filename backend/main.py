@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 
 # Create FastAPI app
 app = FastAPI(
-    title="Counter Speech API",
-    description="API for generating counter speech suggestions against hate speech",
+    title="Counterspeech API",
+    description="API for generating counterspeech suggestions against hate speech",
     version="1.0.0"
 )
 
@@ -39,17 +39,17 @@ app.include_router(api.router)
 async def root():
     """Root endpoint"""
     return {
-        "message": "Counter Speech API",
+        "message": "Counterspeech API",
         "version": "1.0.0",
         "docs": "/docs"
     }
 
-
+# Run app with uvicorn
 if __name__ == "__main__":
     import uvicorn
     from config import API_HOST, API_PORT
     
-    logger.info(f"Starting Counter Speech API on {API_HOST}:{API_PORT}")
+    logger.info(f"Starting Counterspeech API on {API_HOST}:{API_PORT}")
     uvicorn.run(
         "main:app",
         host=API_HOST,

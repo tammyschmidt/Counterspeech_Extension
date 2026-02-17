@@ -15,18 +15,16 @@ load_dotenv(dotenv_path=env_path)
 
 # Groq API Configuration
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile")  # Default model
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
-# Retrieval / Dataset configuration
+# Retrieval configuration
 DATA_DIR = backend_dir / "data"
 CONAN_DATA_PATH = os.getenv(
     "CONAN_DATA_PATH",
-    str(DATA_DIR / "Multitarget-CONAN_withoutexamples.csv")
+    str(DATA_DIR / "Multitarget-CONAN_withoutexamples.csv") # for User Study
+    # str(DATA_DIR / "Multitarget-CONAN.csv")
 )
-EMBEDDING_MODEL_NAME = os.getenv(
-    "EMBEDDING_MODEL_NAME",
-    "all-mpnet-base-v2"
-)
+EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "all-mpnet-base-v2")
 RETRIEVAL_TOP_K = int(os.getenv("RETRIEVAL_TOP_K", "5"))
 FAISS_INDEX_PATH = os.getenv(
     "FAISS_INDEX_PATH",
