@@ -114,9 +114,9 @@ class GroqService:
             "that guidance.\n"
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
-            "5) Consider the role of the responder ({role}) and requested writing style ({writing_style})."
+            "5) Consider the role of the responder ({role}) and requested writing style ({writing_style}). Address the writer of the HS."
             "6) {placeholders_prompt}"
-            "7) Generate three CS suggestions following this priority order: "
+            "7) Generate three CS suggestions as a repsonse to the HS, following this priority order: "
             "Safeguards > Default guidelines > User input > Retrieved examples."
         )
 
@@ -147,7 +147,7 @@ class GroqService:
     def _format_placeholders(self, use_placeholders: bool) -> str:
         """Return (preference description, output format instruction) for placeholders."""
         if use_placeholders:
-            return ( "User requested placeholders. Each of the three suggestions MUST include at least one explicit placeholder "
+            return ( "User requested placeholders. Each of the three suggestions MUST include one explicit placeholder "
                 "in square brackets, e.g. [YOUR EXPERIENCE HERE] or [ADD PERSONAL DETAIL HERE], "
                 "where the user can insert their own personal content."
             )
