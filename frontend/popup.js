@@ -288,8 +288,8 @@ generateBtn.addEventListener('click', async () => {
 
         displaySuggestions(suggestions);
     } catch (error) {
-        console.error('Error generating counter speech', error);
-        alert('Something went wrong while generating the counter speech. Please try again.');
+        console.error('Error generating counterspeech', error);
+        alert('Something went wrong while generating the counterspeech. Please try again.');
     } finally {
         loadingDiv.classList.add('hidden');
         generateBtn.disabled = false;

@@ -147,9 +147,10 @@ class GroqService:
     def _format_placeholders(self, use_placeholders: bool) -> str:
         """Return (preference description, output format instruction) for placeholders."""
         if use_placeholders:
-            return "User requested placeholders. Each of the three suggestions MUST include at least one explicit placeholder "
+            return ( "User requested placeholders. Each of the three suggestions MUST include at least one explicit placeholder "
                 "in square brackets, e.g. [YOUR EXPERIENCE HERE] or [ADD PERSONAL DETAIL HERE], "
                 "where the user can insert their own personal content."
+            )
         return "Write complete phrases."   
 
     def _format_examples(
