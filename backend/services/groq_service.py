@@ -119,10 +119,10 @@ class GroqService:
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
             "5) Check if user requests placeholders: {use_placeholders} "
-            "   - If, and ONLY IF, this is True, insert placeholder segments "
+            "   - If, and ONLY IF, this is True, you MUST insert placeholder segments "
             '     like "[YOUR EXPERIENCE HERE]" or "[ADD PERSONAL DETAIL HERE]" where personal '
-            "     stories or details should be added by the user later.\n"
-            "   - If it is False, ignore this point.\n"
+            "     stories or details should be added by the user later (at least one per suggestion).\n"
+            "   - If it is False, write complete and fluent suggestions.\n"
             "6) Generate three CS suggestions following this priority order: "
             "Safeguards > Default guidelines > User input > Retrieved examples."
         )
