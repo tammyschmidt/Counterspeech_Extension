@@ -166,7 +166,6 @@ class GroqService:
                 f"Example {idx}:\n"
                 f"Hate speech: {example.get('hate_speech', '').strip()}\n"
                 f"Counterspeech: {example.get('counter_narrative', '').strip()}\n"
-                f"Target: {example.get('target', 'N/A')}\n"
             )
             formatted_blocks.append(block.strip())
 

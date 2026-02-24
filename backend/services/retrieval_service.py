@@ -93,8 +93,6 @@ class RetrievalService:
                 example = {
                     "hate_speech": hate_speech,
                     "counter_narrative": counter_narrative,
-                    "target": (row.get("TARGET") or "").strip(),
-                    "version": (row.get("VERSION") or "").strip(),
                 }
                 examples.append(example)
 
@@ -110,8 +108,6 @@ class RetrievalService:
                 page_content=example["hate_speech"],
                 metadata={
                     "counter_narrative": example["counter_narrative"],
-                    "target": example["target"],
-                    "version": example["version"],
                 },
             )
             for example in examples
@@ -139,8 +135,6 @@ class RetrievalService:
             {
                 "hate_speech": doc.page_content,
                 "counter_narrative": doc.metadata.get("counter_narrative", ""),
-                "target": doc.metadata.get("target", ""),
-                "version": doc.metadata.get("version", ""),
             }
             for doc in docs
         ]
