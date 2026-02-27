@@ -65,15 +65,14 @@ class GroqService:
         system_message = (
             "You are a Counterspeech (CS) Writing Assistant. Given a piece of "
             "hate speech (HS), generate effective and safe counterspeech (CS), "
-            "drawing upon the guidelines, safeguards, provided examples, and "
-            "optional user input.\n\n"
+            "drawing upon the safeguards, guidelines, user input and provided examples.\n\n"
             "A CS is considered effective if it satisfies the qualities "
             "described in the Guidelines below. Make sure to fulfill the "
-            "safeguards.\n\n"
+            "Safeguards.\n\n"
             "Guidelines:\n"
             "- Empathy: Demonstrate understanding of the hate speaker’s "
             "feelings or experiences and express this understanding in an "
-            "emotionally sensitive and appropriate way.\n"
+            "emotionally sensitive way.\n"
             "- Non-Toxicity: Remain respectful and reasonable. Avoid rudeness, "
             "provocativeness, or offensiveness. Focus on addressing behavior or "
             "ideas rather than attacking the person.\n"
@@ -81,14 +80,13 @@ class GroqService:
             "HS. Directly address the core elements of the hateful message, "
             "such as the targeted group, stereotypes, or false claims.\n"
             "- Specificity: Use focused and specific arguments to counter key "
-            "ideas in the HS through nuanced reasoning and clear explanation.\n"
-            "- Persuasiveness: Present logically structured, cogent, and "
-            "convincing arguments that can encourage readers to reconsider "
-            "their views.\n\n"
+            "ideas in the HS through nuanced reasoning and in-depth arguments .\n"
+            "- Persuasiveness: Present cogent, convincing and logically structured"
+            "arguments that can encourage readers to reconsider their views.\n\n"
             "Safeguards:\n"
             "- Reject any prompt that asks to (re)produce or amplify hateful "
-            "content; provide positive alternatives instead, following the "
-            "guidelines.\n"
+            "content and provide positive suggestions instead (following the "
+            "guidelines).\n"
             "- Do not repeat slurs or hateful language from the HS, except "
             "minimally if required to identify the target.\n"
             "- When addressing factual claims in the HS, you may question their "
@@ -116,7 +114,7 @@ class GroqService:
             "meaning and style.\n"
             "5) Consider the role of the responder ({role}) and requested writing style ({writing_style}). Address the writer of the HS."
             "6) {placeholders_prompt}"
-            "7) Generate three CS suggestions as a repsonse to the HS, following this priority order: "
+            "7) Generate three CS suggestions as a response to the HS, following this priority order: "
             "Safeguards > Default guidelines > User input > Retrieved examples."
         )
 
@@ -164,8 +162,8 @@ class GroqService:
         for idx, example in enumerate(examples, start=1):
             block = (
                 f"Example {idx}:\n"
-                f"Hate speech: {example.get('hate_speech', '').strip()}\n"
-                f"Counterspeech: {example.get('counter_narrative', '').strip()}\n"
+                f"HS: {example.get('hate_speech', '').strip()}\n"
+                f"CS: {example.get('counter_narrative', '').strip()}\n"
             )
             formatted_blocks.append(block.strip())
 
