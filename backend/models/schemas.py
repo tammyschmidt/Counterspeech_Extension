@@ -26,14 +26,14 @@ class GenerateRequest(BaseModel):
         }
 
 
-class CounterSpeechSuggestion(BaseModel):
+class CounterspeechSuggestion(BaseModel):
     """Model for a single counterspeech suggestion"""
     text: str = Field(..., description="The counterspeech suggestion text")
 
 
 class GenerateResponse(BaseModel):
     """Response model containing counterspeech suggestions"""
-    suggestions: List[CounterSpeechSuggestion] = Field(..., description="List of counterspeech suggestions")
+    suggestions: List[CounterspeechSuggestion] = Field(..., description="List of counterspeech suggestions")
     
     class Config:
         json_schema_extra = {

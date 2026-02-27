@@ -1,14 +1,14 @@
 # API route handlers
 
 from fastapi import APIRouter, HTTPException
-from models.schemas import GenerateRequest, GenerateResponse, CounterSpeechSuggestion
+from models.schemas import GenerateRequest, GenerateResponse, CounterspeechSuggestion
 from services.groq_service import GroqService
 from services.retrieval_service import RetrievalService
 import logging
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api", tags=["counter-speech"])
+router = APIRouter(prefix="/api", tags=["counterspeech"])
 
 # Initialize services
 groq_service = GroqService()
@@ -18,13 +18,13 @@ retrieval_service = RetrievalService()
 @router.post("/generate", response_model=GenerateResponse)
 async def generate_counter_speech(request: GenerateRequest):
     """
-    Generate counter speech suggestions based on hateful comment
+    Generate counterspeech suggestions based on hateful comment and given user input
     
     Args:
-        request: GenerateRequest containing hateful comment, additional input, and role
+        request: GenerateRequest containing hateful comment, additional input, role, style, length, placeholder preference
         
     Returns:
-        GenerateResponse with three counter speech suggestions
+        GenerateResponse with three counterspeech suggestions
     """
     try:
         # Validate role
@@ -61,7 +61,7 @@ async def generate_counter_speech(request: GenerateRequest):
         
         # Format response
         suggestions = [
-            CounterSpeechSuggestion(text=text) 
+            CounterspeechSuggestion(text=text) 
             for text in suggestions_text
         ]
         
@@ -78,5 +78,5 @@ async def generate_counter_speech(request: GenerateRequest):
 @router.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "service": "counter-speech-api"}
+    return {"status": "healthy", "service": "counterspeech-api"}
 
