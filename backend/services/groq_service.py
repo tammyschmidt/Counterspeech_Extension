@@ -18,7 +18,7 @@ class GroqService:
         )
         self.prompt_template = self._build_prompt_template()
 
-    def generate_counter_speech(
+    def generate_counterspeech(
         self,
         hateful_comment: str,
         additional_input: Optional[str] = None,

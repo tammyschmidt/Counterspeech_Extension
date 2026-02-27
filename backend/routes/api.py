@@ -16,7 +16,7 @@ retrieval_service = RetrievalService()
 
 # POST generation request
 @router.post("/generate", response_model=GenerateResponse)
-async def generate_counter_speech(request: GenerateRequest):
+async def generate_counterspeech(request: GenerateRequest):
     """
     Generate counterspeech suggestions based on hateful comment and given user input
     
@@ -49,7 +49,7 @@ async def generate_counter_speech(request: GenerateRequest):
         )
 
         # Generate counterspeech with contextual examples
-        suggestions_text = groq_service.generate_counter_speech(
+        suggestions_text = groq_service.generate_counterspeech(
             hateful_comment=request.hateful_comment,
             additional_input=request.additional_input,
             role=request.role,
