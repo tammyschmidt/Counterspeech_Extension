@@ -1,12 +1,16 @@
-# Counterspeech Writing Assistant: Human–AI Collaboration for Combating Hate Speech 
 
-![<Logo>](assets/icon.png)
 
-This repository contains the source code, data, and evaluation scripts for a Bachelor's thesis project that designed, developed and evaluated an AI-powered browser extension for **Counterspeech (CS)** writing assistance. CS represents a constructive alternative to deletion-based moderation practices in the combat against online hate speech.
+<img src="assets/icon.png" align="left" width="80" style="margin-right: 15px;">
 
-Recognizing both the significant effort and skills required for manually crafted responses, as well as the lack of authenticity and meaningful human involvement in fully automated systems, this work explored **Human–AI Collaboration** as a middle ground capable of combining the generative power of modern LLMs with users' personal voice. The ultimate goal is to help users in formulating CS that is both effective and authentic.
+# Counterspeech Writing Assistant: <br> Human–AI Collaboration for Combating Hate Speech 
 
-The system uses a Large Language Model tailored via **Prompt Engineering** and **In-Context Learning**, utilizing similarity-based retrieval from the *Multitarget-CONAN* dataset.
+<br clear="left"/>
+
+This repository contains the source code, data, and evaluation scripts for a Bachelor's thesis project that designed, developed and evaluated an AI-powered browser extension for **Counterspeech (CS)** writing assistance. 
+
+#### Motivation: 
+CS represents a constructive alternative to deletion-based moderation practices in the combat against online hate speech. Recognizing both the significant effort and skills required for manually crafted responses, as well as the lack of authenticity and meaningful human involvement in fully automated systems, this work explored **Human–AI Collaboration** as a middle ground capable of combining the generative power of modern LLMs with users' personal voice. The ultimate goal is to help users in formulating CS that is both effective and authentic.
+
 
 > **Warning:** This repository contains datasets with hateful content directed toward various groups (disabled, Jewish, LGBTQ+, migrants, Muslims, POC, women, and others). This content is included strictly for research and CS development purposes.
 
@@ -15,23 +19,31 @@ The system uses a Large Language Model tailored via **Prompt Engineering** and *
 ## 📄 Thesis Paper
 
 The complete thesis, detailing the system design, implementation, and the results of the user study, can be found in the root directory:
-[**Thesis.pdf**]
+`Thesis.pdf`
 
 -----
 
 ## 🛠️ Architecture
 
-![<Image of architecture diagram>](assets/Architecture_diagram.png)
+<img src="assets/Architecture_diagram.png" alt="Architecture diagram" width="700">
 
 -----
 
 ### ✨ Key Features
 
 * **Guided Input:** Tailors responses based on user provided input (hate speech comment, CS input, role, style, length, and placeholder preferences).
-* **Smart Retrieval:** Fetches similar examples from the Multitarget-CONAN dataset for in-context learning.
+* **In-Context Learning:** Fetches similar examples from the *Multitarget CONAN* dataset for in-context learning.
 * **Prompt Engineering:** Steers an LLM via the Groq API to generate effective CS.
 * **User Choice:** Returns three distinct suggestions to provide variety and choice.
 * **Human-in-the-Loop:** Users can post-edit and copy suggestions, ensuring the final output remains authentic and human-controlled.
+
+
+### 📊 Dataset
+
+The project uses the [**Multitarget-CONAN**](https://github.com/marcoguerini/CONAN) dataset.
+
+  * The provided `data/Multitarget-CONAN_withoutexamples.csv` excludes the 8 specific instances used during the user study to prevent bias.
+  * To use the full dataset, update the data path in `backend/config.py` (lines 24/25).
 
 -----
 
@@ -103,22 +115,15 @@ npm run dev
 
 -----
 
-## 📷 Screenshot of pop-up window:
+## 📷 Screenshot of pop-up window
 
-![<Image of main page>](assets/Info_page.png)
+<img src="assets/Main_page.png" alt="Main page" width="300">
 
 (For more screenshots, see \assets folder)
 
 -----
 
-## 📊 Data & Evaluation
-
-### Dataset
-
-The project uses the [**Multitarget-CONAN**](https://github.com/marcoguerini/CONAN) dataset.
-
-  * The provided `data/Multitarget-CONAN_withoutexamples.csv` excludes the 8 specific instances used during the user study to prevent bias.
-  * To use the full dataset, update the data path in `backend/config.py` (lines 24/25).
+## 🔍 Evaluation
 
 ### Reproducing Analysis
 
