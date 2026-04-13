@@ -56,8 +56,11 @@ The backend is currently hosted on Railway. You only need to install the fronten
 3.  Open Google Chrome* and navigate to `chrome://extensions/`.
 4.  Enable **"Developer mode"** (toggle in the top right corner).
 5.  Click **"Load unpacked"** and select the folder where you extracted the zip.
+6.  Click on the puzzle icon in the top right corner of your browser bar and pin the Counterspeech Extension.
+7.  Open a new tab website of your choice** and click on the icon (orange "C" on a purple background) and you're ready to go!
 
 (*If you want to use a different browser, check how to manually load an extension there.)
+(**Extension don't operate while you are on chrome:// pages)
 
 ### 💻 Option 2: Local Setup (Required from June 1, 2026)
 
