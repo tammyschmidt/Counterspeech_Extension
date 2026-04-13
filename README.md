@@ -111,6 +111,7 @@ npm install
 npm run dev
 ```
 
+(The `railway.json` and `Procfile` can be ignored when the application is run locally.)
 
 ### 🔍 Reproducing Analysis
 
