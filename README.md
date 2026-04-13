@@ -1,6 +1,6 @@
 
 
-<img src="assets/icon.png" align="left" width="80" style="margin-right: 15px;">
+<img src="assets/icon.png" align="left" width="100" style="margin-right: 15px;">
 
 # Counterspeech Writing Assistant: <br> Human–AI Collaboration for Combating Hate Speech 
 
@@ -16,18 +16,7 @@ CS represents a constructive alternative to deletion-based moderation practices 
 
 -----
 
-## 📄 Thesis Paper
-
-The complete thesis, detailing the system design, implementation, and the results of the user study, can be found in the root directory:
-`Thesis.pdf`
-
------
-
-## 🛠️ Architecture
-
-<img src="assets/Architecture_diagram.png" alt="Architecture diagram" width="700">
-
------
+## System Overview
 
 ### ✨ Key Features
 
@@ -36,7 +25,10 @@ The complete thesis, detailing the system design, implementation, and the result
 * **Prompt Engineering:** Steers an LLM via the Groq API to generate effective CS.
 * **User Choice:** Returns three distinct suggestions to provide variety and choice.
 * **Human-in-the-Loop:** Users can post-edit and copy suggestions, ensuring the final output remains authentic and human-controlled.
+  
+### 🛠️ Architecture
 
+<img src="assets/Architecture_diagram.png" alt="Architecture diagram" width="700">
 
 ### 📊 Dataset
 
@@ -45,11 +37,16 @@ The project uses the [**Multitarget-CONAN**](https://github.com/marcoguerini/CON
   * The provided `data/Multitarget-CONAN_withoutexamples.csv` excludes the 8 specific instances used during the user study to prevent bias.
   * To use the full dataset, update the data path in `backend/config.py` (lines 24/25).
 
+### 📷 Screenshot of pop-up window
+
+<img src="assets/Main_page.png" alt="Main page" width="300">
+
+(For more screenshots, see \assets folder)
+
+-----
 -----
 
-## 🚀 How to Use
-
-**Python Version:** 3.14.0
+## How to Use
 
 ### Option 1: Quick Start (Valid until May 31, 2026)
 
@@ -64,6 +61,8 @@ The backend is currently hosted on Railway. You only need to install the fronten
 (*If you want to use a different browser, check how to manually load an extension there.)
 
 ### Option 2: Local Setup (Required from June 1, 2026)
+
+**Python Version:** 3.14.0
 
 To run the full stack locally, follow these steps:
 
@@ -115,17 +114,9 @@ npm run dev
 
 -----
 
-## 📷 Screenshot of pop-up window
+## Evaluation
 
-<img src="assets/Main_page.png" alt="Main page" width="300">
-
-(For more screenshots, see \assets folder)
-
------
-
-## 🔍 Evaluation
-
-### Reproducing Analysis
+### 🔍 Reproducing Analysis
 
 To reproduce the data analysis and visualizations from the thesis study:
 
@@ -136,6 +127,15 @@ cd evaluation
 pip install -r requirements.txt
 python analysis.py
 ```
+
+-----
+
+## 📄 Thesis Paper
+
+The complete thesis, detailing the system design, implementation, and the results of the user study, can be found in the root directory:
+`Thesis.pdf`
+
+-----
 
 ## ⚖️ License
 
