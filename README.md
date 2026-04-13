@@ -44,11 +44,10 @@ The project uses the [**Multitarget-CONAN**](https://github.com/marcoguerini/CON
 (For more screenshots, see \assets folder)
 
 -----
------
 
 ## How to Use
 
-### Option 1: Quick Start (Valid until May 31, 2026)
+### 🚀 Option 1: Quick Start (Valid until May 31, 2026)
 
 The backend is currently hosted on Railway. You only need to install the frontend:
 
@@ -60,7 +59,7 @@ The backend is currently hosted on Railway. You only need to install the fronten
 
 (*If you want to use a different browser, check how to manually load an extension there.)
 
-### Option 2: Local Setup (Required from June 1, 2026)
+### 💻 Option 2: Local Setup (Required from June 1, 2026)
 
 **Python Version:** 3.14.0
 
@@ -112,9 +111,6 @@ npm install
 npm run dev
 ```
 
------
-
-## Evaluation
 
 ### 🔍 Reproducing Analysis
 
@@ -130,14 +126,14 @@ python analysis.py
 
 -----
 
-## 📄 Thesis Paper
+## Thesis Paper
 
 The complete thesis, detailing the system design, implementation, and the results of the user study, can be found in the root directory:
 `Thesis.pdf`
 
 -----
 
-## ⚖️ License
+## License
 
 This project is licensed under the **MIT License**.
 
