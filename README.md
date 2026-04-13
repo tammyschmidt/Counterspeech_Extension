@@ -1,51 +1,139 @@
-# Human-AI Counter Speech Extension
+# Counterspeech Writing Assistant: Human–AI Collaboration for Combating Hate Speech 
 
-## Overview
-This project will develop a browser extension to facilitate human-AI collaboration in countering online hate speech (HS) through effective and authentic counter speech (CS). The extension aims to lower barriers to engagement—such as limited time, emotional strain, and uncertainty about how to respond—by providing users with AI-generated CS suggestions that they can personalize. The system leverages a state-of-the-art language model, a retrieval engine, and embedding technologies to generate contextually relevant and impactful responses. The ultimate goal is to empower individuals, whether targets or allies, to participate constructively in online discourse.
+![<Logo>](assets/icon.png)
 
-## Features
-- [List functional requirements]
+This repository contains the source code, data, and evaluation scripts for a Bachelor's thesis project that designed, developed and evaluated an AI-powered browser extension for **Counterspeech (CS)** writing assistance. CS represents a constructive alternative to deletion-based moderation practices in the combat against online hate speech.
 
-## Technology Stack
-- [List stack]
+Recognizing both the significant effort and skills required for manually crafted responses, as well as the lack of authenticity and meaningful human involvement in fully automated systems, this work explored **Human–AI Collaboration** as a middle ground capable of combining the generative power of modern LLMs with users' personal voice. The ultimate goal is to help users in formulating CS that is both effective and authentic.
 
-## Setup
-- Backend:
-  - `cd backend`
-  - Create and activate a virtualenv (optional for local dev)
-  - `pip install -r requirements.txt`
-  - `uvicorn main:app --reload`
-- Frontend:
-  - Load the `frontend` folder as an unpacked extension in your browser (Manifest v3).
+The system uses a Large Language Model tailored via **Prompt Engineering** and **In-Context Learning**, utilizing similarity-based retrieval from the *Multitarget-CONAN* dataset.
 
-## Deployment on Railway (no Docker)
+> **Warning:** This repository contains datasets with hateful content directed toward various groups (disabled, Jewish, LGBTQ+, migrants, Muslims, POC, women, and others). This content is included strictly for research and CS development purposes.
 
-- **What Railway will detect**
-  - Root `requirements.txt` (which includes `backend/requirements.txt`).
-  - `runtime.txt`
-  - `Procfile`
+-----
 
+## 📄 Thesis Paper
 
-- **Steps**
-  - Push this repository to GitHub (or another Git provider supported by Railway).
-  - Create a new **Service** in Railway and link it to this repo.
-  - Railway will:
-    - Install Python 3.11.
-    - Install dependencies from `requirements.txt`.
-    - Use the `Procfile` to start the app on the correct `$PORT`.
+The complete thesis, detailing the system design, implementation, and the results of the user study, can be found in the root directory:
+[**Thesis.pdf**]
 
-- **Environment variables (required)**
-  - Set these in the Railway service settings:
-    - `GROQ_API_KEY`: your Groq API key.
-  - Optional overrides (if you need them):
-    - `GROQ_MODEL` (defaults to `llama-3.1-70b-versatile`)
-    - `CONAN_DATA_PATH`, `EMBEDDING_MODEL_NAME`, `RETRIEVAL_TOP_K`, `FAISS_INDEX_PATH`
+-----
 
-- **API endpoints**
-  - Root: `GET /` → basic info and link to docs.
-  - Health check: `GET /api/health`
-  - Generate counter speech: `POST /api/generate`
+## 🛠️ Architecture
 
-## Usage
-- [Describe how to use extension]
+![<Image of architecture diagram>](assets/Architecture_diagram.png)
 
+-----
+
+### ✨ Key Features
+
+* **Guided Input:** Tailors responses based on user provided input (hate speech comment, CS input, role, style, length, and placeholder preferences).
+* **Smart Retrieval:** Fetches similar examples from the Multitarget-CONAN dataset for in-context learning.
+* **Prompt Engineering:** Steers an LLM via the Groq API to generate effective CS.
+* **User Choice:** Returns three distinct suggestions to provide variety and choice.
+* **Human-in-the-Loop:** Users can post-edit and copy suggestions, ensuring the final output remains authentic and human-controlled.
+
+-----
+
+## 🚀 How to Use
+
+**Python Version:** 3.14.0
+
+### Option 1: Quick Start (Valid until May 31, 2026)
+
+The backend is currently hosted on Railway. You only need to install the frontend:
+
+1.  Download **`Browser_Extension.zip`** from the root directory.
+2.  Unpack the zip file on your local machine.
+3.  Open Google Chrome* and navigate to `chrome://extensions/`.
+4.  Enable **"Developer mode"** (toggle in the top right corner).
+5.  Click **"Load unpacked"** and select the folder where you extracted the zip.
+
+(*If you want to use a different browser, check how to manually load an extension there.)
+
+### Option 2: Local Setup (Required from June 1, 2026)
+
+To run the full stack locally, follow these steps:
+
+#### 1\. Clone & Install
+
+```bash
+git clone https://github.com/tammyschmidt/Counterspeech_Extension
+cd counterspeech_extension
+pip install -r requirements.txt
+```
+
+#### 2\. Environment Variables
+
+Create a `.env` file in the root directory and set the following variables:
+
+  * `GROQ_API_KEY`: Your personal key from [Groq Console](https://console.groq.com/keys).
+  * `GROQ_MODEL`: `llama-3.3-70b-versatile`*.
+  * `EMBEDDING_MODEL_NAME`: `all-mpnet-base-v2`*.
+  * `RETRIEVAL_TOP_K`: `5`*.
+  * `API_HOST`: `127.0.0.1`*.
+  * `API_PORT`: `8000`*.
+  * `CORS_ORIGINS`: `chrome-extension://[EXTENSION_ID]` (you can find the extension's ID at `chrome://extensions/`).
+
+  (* Configurations as used in the study - feel free to experiment with different variables)
+
+#### 3\. Frontend Configuration
+
+In `frontend/popup.js`, update lines 6/7 to point to your local backend:
+
+```javascript
+const API_BASE_URL = "http://127.0.0.1:8000"; 
+```
+
+#### 4\. Run the Application
+
+**Terminal 1 (Backend):**
+
+```bash
+uvicorn backend.main:app --reload
+```
+
+**Terminal 2 (Frontend):**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+-----
+
+## 📷 Screenshot of pop-up window:
+
+![<Image of main page>](assets/Info_page.png)
+
+(For more screenshots, see \assets folder)
+
+-----
+
+## 📊 Data & Evaluation
+
+### Dataset
+
+The project uses the [**Multitarget-CONAN**](https://github.com/marcoguerini/CONAN) dataset.
+
+  * The provided `data/Multitarget-CONAN_withoutexamples.csv` excludes the 8 specific instances used during the user study to prevent bias.
+  * To use the full dataset, update the data path in `backend/config.py` (lines 24/25).
+
+### Reproducing Analysis
+
+To reproduce the data analysis and visualizations from the thesis study:
+
+<!-- end list -->
+
+```bash
+cd evaluation
+pip install -r requirements.txt
+python analysis.py
+```
+
+## ⚖️ License
+
+This project is licensed under the **MIT License**.
+
+Copyright (c) 2026 [Tammy Schmidt]
