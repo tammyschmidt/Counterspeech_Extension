@@ -63,7 +63,7 @@ class GroqService:
         """Build the prompt template for counterspeech generation."""
 
         system_message = (
-            "You are a Counterspeech (CS) Writing Assistant. Given a piece of "
+            "You are a Counterspeech Writing Assistant. Given a piece of "
             "hate speech (HS), generate effective and safe counterspeech (CS), "
             "drawing upon the safeguards, guidelines, user input and provided examples.\n\n"
             "A CS is considered effective if it satisfies the qualities "

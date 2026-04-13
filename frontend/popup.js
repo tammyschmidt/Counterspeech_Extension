@@ -3,8 +3,8 @@
 console.log('Counter Speech Extension loaded');
 
 // API configuration
-// const API_BASE_URL = 'http://127.0.0.1:8000/api';
-const API_BASE_URL = 'https://counterspeechextension-production.up.railway.app/api';
+// const API_BASE_URL = 'http://127.0.0.1:8000/api'; // local backend
+const API_BASE_URL = 'https://counterspeechextension-production.up.railway.app/api'; // deployed backend on Railway
 
 // DOM Elements
 const hatefulCommentInput = document.getElementById('hateful-comment');

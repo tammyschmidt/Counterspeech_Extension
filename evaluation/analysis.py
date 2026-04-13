@@ -155,8 +155,6 @@ def plot_time(df):
 
     plt.grid(axis='y', linestyle=':', alpha=0.4)
 
-    out = os.path.join(RESULTS_DIR, "time_dot_individual.pdf")
-    plt.savefig(out, bbox_inches="tight")
     out = os.path.join(RESULTS_DIR, "time_dot_individual.png")
     plt.savefig(out, bbox_inches="tight")
 
@@ -199,8 +197,6 @@ def plot_willingness(df):
 
     plt.grid(axis='y', linestyle=':', alpha=0.4)
 
-    out = os.path.join(RESULTS_DIR, "willingness_dot_individual.pdf")
-    plt.savefig(out, bbox_inches="tight")
     out = os.path.join(RESULTS_DIR, "willingness_dot_individual.png")
     plt.savefig(out, bbox_inches="tight")
 
@@ -277,8 +273,6 @@ def plot_authentic_dots(df):
     plt.grid(axis='x', linestyle=':', alpha=0.4)
 
     out = os.path.join(RESULTS_DIR, "authentic_dots.png")
-    plt.savefig(out, bbox_inches="tight")
-    out = os.path.join(RESULTS_DIR, "authentic_dots.pdf")
     plt.savefig(out, bbox_inches="tight")
 
     plt.close()
@@ -410,14 +404,14 @@ def table_iaa(df):
 
 if __name__ == "__main__":
 
-    #df1 = load_data(DATA_PATH_1)
+    df1 = load_data(DATA_PATH_1)
     df2 = load_data(DATA_PATH_2)
 
-    #plot_time(df1)
-    #plot_willingness(df1)
-    #plot_authentic_dots(df1)
+    plot_time(df1)
+    plot_willingness(df1)
+    plot_authentic_dots(df1)
 
-    #table_effectiveness(df2)
+    table_effectiveness(df2)
     table_iaa(df2)
 
     print("Done")
