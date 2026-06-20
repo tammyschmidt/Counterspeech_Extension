@@ -21,11 +21,10 @@ class GroqService:
     def generate_counterspeech(
         self,
         hateful_comment: str,
-        additional_input: Optional[str] = None,
-        role: str = "ally",
-        writing_style: str = "formal",
-        length: int = 3,
-        use_placeholders: bool = False,
+        additional_input: str = None,
+        role: str,
+        writing_style: str,
+        length: int = 2,
         examples: Optional[List[Dict[str, str]]] = None,
     ) -> List[str]:
         """
@@ -37,7 +36,6 @@ class GroqService:
             role: User's role ('target', 'target-group', or 'ally').
             writing_style: Writing style ('formal' or 'familiar').
             length: Response length on a scale of 1-3 (1=Short 20-40 words, 2=Medium 40-80 words, 3=Long 80-120 words).
-            use_placeholders: Whether to include placeholders that users can fill with personal details (True or False).
             examples: Optional list of similar examples from CONAN dataset.
 
         Returns:
@@ -47,11 +45,10 @@ class GroqService:
         messages = self.prompt_template.format_messages(
             hateful_comment=hateful_comment.strip(),
             role=role,
-            writing_style=writing_style,
+            writing_style=self._format_writing_style(writing_style),
             length=self._format_length(length),
-            additional_input=self._format_additional_input(additional_input),
+            additional_input=additional_input,
             examples_text=self._format_examples(examples),
-            placeholders_prompt=self._format_placeholders(use_placeholders),
         )
 
         response = self.llm.invoke(messages)
@@ -107,14 +104,13 @@ class GroqService:
             "2) Recognize the emotional impact the HS may have on the target.\n"
             "3) Consider the style and content of the retrieved examples, if "
             "provided.\n"
-            "4) Check the additional user input, if properly provided:\n"
+            "4) Check the additional user input, if properly provided, and include it in all three suggestions if relevant:\n"
             "   - If it is about tone/style or other metacommunication, follow "
             "that guidance.\n"
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
-            "5) Consider the role of the responder ({role}) and requested writing style ({writing_style}). Address the writer of the HS."
-            "6) {placeholders_prompt}"
-            "7) Generate three CS suggestions as a response to the HS, following this priority order: "
+            "5) Consider the role of the responder ({role}) and {writing_style}. Address the writer of the HS."
+            "6) Generate three CS suggestions as a response to the HS, following this priority order: "
             "Safeguards > Default guidelines > User input > Retrieved examples."
         )
 
@@ -136,21 +132,6 @@ class GroqService:
         }
         return length_descriptions.get(length, "Medium (40-80 words)")
 
-    def _format_additional_input(self, additional_input: Optional[str]) -> str:
-        """Ensure additional input has a fallback string."""
-        if additional_input and additional_input.strip():
-            return additional_input.strip()
-        return "No additional context provided."
-
-    def _format_placeholders(self, use_placeholders: bool) -> str:
-        """Return (preference description, output format instruction) for placeholders."""
-        if use_placeholders:
-            return ( "User requested placeholders. Each of the three suggestions MUST include one explicit placeholder "
-                "in square brackets, e.g. [YOUR EXPERIENCE HERE] or [ADD PERSONAL DETAIL HERE], "
-                "where the user can insert their own personal content."
-            )
-        return "Write complete phrases."   
-
     def _format_examples(
         self, examples: Optional[List[Dict[str, str]]]
     ) -> str:
@@ -169,6 +150,14 @@ class GroqService:
 
         return "\n\n".join(formatted_blocks)
 
+    def _format_writing_style(self, writing_style: str) -> str:
+        """Return a half-sentence instruction describing the requested writing style."""
+        styles = {
+            "formal": "use a formal, professional tone, as you would in a news comment section",
+            "familiar": "use a familiar, informal tone, as you would when writing to a friend or on social media",
+        }
+        key = (writing_style).strip().lower()
+        return styles.get(key)
 
     def _parse_suggestions(self, response_text: str) -> List[str]:
         """Parse the LLM response to extract exactly three suggestions."""

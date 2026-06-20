@@ -21,7 +21,7 @@ async def generate_counterspeech(request: GenerateRequest):
     Generate counterspeech suggestions based on hateful comment and given user input
     
     Args:
-        request: GenerateRequest containing hateful comment, additional input, role, style, length, placeholder preference
+        request: GenerateRequest containing hateful comment, additional input, role, style, and length
         
     Returns:
         GenerateResponse with three counterspeech suggestions
@@ -56,7 +56,6 @@ async def generate_counterspeech(request: GenerateRequest):
             writing_style=request.writing_style,
             length=request.length,
             examples=examples,
-            use_placeholders=request.use_placeholders,
         )
         
         # Format response

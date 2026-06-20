@@ -20,7 +20,7 @@ CS represents a constructive alternative to deletion-based moderation practices 
 
 ### ✨ Key Features
 
-* **Guided Input:** Tailors responses based on user provided input (hate speech comment, CS input, role, style, length, and placeholder preferences).
+* **Guided Input:** Tailors responses based on user provided input (hate speech comment, CS input, role, style, and length).
 * **In-Context Learning:** Fetches similar examples from the *Multitarget CONAN* dataset for in-context learning.
 * **Prompt Engineering:** Steers an LLM via the Groq API to generate effective CS.
 * **User Choice:** Returns three distinct suggestions to provide variety and choice.
