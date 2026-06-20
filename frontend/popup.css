@@ -101,6 +101,20 @@ h2 {
 
 .form-section {
     margin-bottom: 12px;
+    overflow: visible;
+}
+
+.field-label-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.field-label-row label {
+    margin-bottom: 0;
 }
 
 label {
@@ -202,98 +216,48 @@ textarea:focus {
     border-color: #5e7afe;
 }
 
-.slider-container {
-    width: 100%;
-    margin-top: 4px;
-}
-
-.length-slider {
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: #dce2ff;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-}
-
-.length-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #5e7afe;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.length-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #5e7afe;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.length-slider:focus {
-    outline: none;
-}
-
-.length-slider:focus::-webkit-slider-thumb {
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-}
-
-.length-slider:focus::-moz-range-thumb {
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-}
-
-.slider-labels {
+.length-options {
     display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    font-size: 11px;
-    color: #000000;
+    flex-direction: row;
+    gap: 7px;
 }
 
-.slider-labels span {
+.length-option {
     flex: 1;
+    padding: 8px 10px;
+    border: 2px solid #5e7afe;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
     text-align: center;
     line-height: 1.4;
+    transition: all 0.2s;
+    box-sizing: border-box;
 }
 
-.slider-labels #length-value {
-    font-weight: 600;
-    color: #ffb13b;
+.length-option:hover {
+    border-color: #5e7afe;
+    background-color: #dce2ff;
 }
 
-.form-section-placeholder .checkbox-label {
+.length-option.selected {
+    border-color: #5e7afe;
+    background-color: #5e7afe;
+    color: white;
+}
+
+.length-option.selected:hover {
+    background-color: #5e7afe;
+    border-color: #5e7afe;
+}
+
+.info-icon-container {
     display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    color: #000000;
+    flex-shrink: 0;
 }
-
-.form-section-placeholder .checkbox-label input[type="checkbox"] {
-    margin: 0;
-    cursor: pointer;
-    accent-color: #5e7afe;
-    outline: none;
-    transition: filter 0.15s ease;
-}
-
-.form-section-placeholder .checkbox-label input[type="checkbox"]:not(:checked):hover {
-    filter: brightness(1.15);
-}
-
 
 .info-icon {
     display: inline-flex;
@@ -305,9 +269,44 @@ textarea:focus {
     font-weight: 600;
     color: #5e7afe;
     background-color: #dce2ff;
+    border: none;
     border-radius: 50%;
-    cursor: help;
+    padding: 0;
+    font-family: inherit;
+    cursor: pointer;
     flex-shrink: 0;
+}
+
+.info-icon:hover {
+    background-color: #c8d2ff;
+}
+
+.info-tooltip {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 260px;
+    max-width: 100%;
+    padding: 10px 12px;
+    background-color: white;
+    border: 1px solid #dce2ff;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    font-size: 11px;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.5;
+    z-index: 100;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.info-tooltip p {
+    margin: 0 0 8px 0;
+}
+
+.info-tooltip p:last-child {
+    margin-bottom: 0;
 }
 
 
@@ -386,13 +385,23 @@ textarea:focus {
 }
 
 .btn-edit {
-    background-color: white;
-    color: #5e7afe;
+    background-color: #5e7afe;
+    color: white;
     border-color: #5e7afe;
 }
 
 .btn-edit:hover {
-    background-color: #dce2ff;
+    background-color: #4a63d9;
+}
+
+.btn-edit.saving {
+    background-color: #ffb13b;
+    border-color: #ffb13b;
+    color: white;
+}
+
+.btn-edit.saving:hover {
+    background-color: #e89c28;
 }
 
 .btn-copy {

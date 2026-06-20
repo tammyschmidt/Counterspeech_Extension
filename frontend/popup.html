@@ -22,7 +22,15 @@
         <!-- Generation Window -->
         <div id="generation-window" class="window-content active">
             <div class="form-section">
-                <label for="hateful-comment">Hateful Comment *</label>
+                <div class="field-label-row">
+                    <label for="hateful-comment">Hateful Comment *</label>
+                    <span class="info-icon-container">
+                        <button type="button" class="info-icon" id="hateful-comment-info-btn" aria-label="Show hateful comment information" aria-expanded="false" aria-controls="hateful-comment-info-tooltip">ℹ</button>
+                        <div id="hateful-comment-info-tooltip" class="info-tooltip hidden" role="tooltip">
+                            <p>Paste here the hate speech comment that you want to respond to.</p>
+                        </div>
+                    </span>
+                </div>
                 <textarea 
                     id="hateful-comment" 
                     placeholder="Paste the hateful comment here."
@@ -30,9 +38,17 @@
                     required
                 ></textarea>
             </div>
-
+            
             <div class="form-section">
-                <label for="additional-input">Your Input for the Counterspeech *</label>
+                <div class="field-label-row">
+                    <label for="additional-input">Your Input for the Counterspeech *</label>
+                    <span class="info-icon-container">
+                        <button type="button" class="info-icon" id="additional-input-info-btn" aria-label="Show input information" aria-expanded="false" aria-controls="additional-input-info-tooltip">ℹ</button>
+                    </span>
+                    <div id="additional-input-info-tooltip" class="info-tooltip hidden" role="tooltip">
+                        <p>You can either provide text drafts or meta-level data — ideas, arguments, or personal experiences — to guide the generated counterspeech.</p>
+                    </div>
+                </div>
                 <textarea 
                     id="additional-input" 
                     placeholder="Add ideas, text snippets or personal experiences..."
@@ -40,51 +56,60 @@
                     required
                 ></textarea>
             </div>
-
-        <div class="form-section">
-            <label>Your Role * <span class="info-icon" title="Direct Target: You are the person directly attacked by the hate speech. Target Group Member: You belong to the group being targeted. Ally: You support the targeted group or person but are not yourself the target." aria-label="Info">ℹ</span></label>
-            <div class="role-options">
-                <button type="button" class="role-option" data-role="target">Direct Target</button>
-                <button type="button" class="role-option" data-role="target-group">Target Group Member</button>
-                <button type="button" class="role-option" data-role="ally">Ally</button>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <label>Writing Style *</label>
-            <div class="style-options">
-                <button type="button" class="style-option" data-style="familiar">Familiar</button>
-                <button type="button" class="style-option" data-style="formal">Formal</button>
-                
-            </div>
-        </div>
-
-        <div class="form-section">
-            <label for="length-slider">Response Length</label>
-            <div class="slider-container">
-                <input 
-                    type="range" 
-                    id="length-slider" 
-                    class="length-slider" 
-                    min="1" 
-                    max="3" 
-                    value="2"
-                    step="1"
-                >
-                <div class="slider-labels">
-                    <span>Short</span>
-                    <span id="length-value">Medium<br>(40-80 words)</span>
-                    <span>Long</span>
+            
+            <div class="form-section">
+                <div class="field-label-row">
+                    <label>Your Role *</label>
+                    <span class="info-icon-container">
+                        <button type="button" class="info-icon" id="role-info-btn" aria-label="Show role information" aria-expanded="false" aria-controls="role-info-tooltip">ℹ</button>
+                        <div id="role-info-tooltip" class="info-tooltip hidden" role="tooltip">
+                            <p><strong>Direct Target:</strong> You are the person directly attacked by the hate speech.</p>
+                            <p><strong>Target Group Member:</strong> You belong to the group being targeted.</p>
+                            <p><strong>Ally:</strong> You support the targeted group or person but are not yourself the target.</p>
+                        </div>
+                    </span>
+                </div>
+                <div class="role-options">
+                    <button type="button" class="role-option" data-role="target">Direct Target</button>
+                    <button type="button" class="role-option" data-role="target-group">Target Group Member</button>
+                    <button type="button" class="role-option" data-role="ally">Ally</button>
                 </div>
             </div>
-        </div>
-
-            <div class="form-section form-section-placeholder">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="use-placeholders">
-                    <span>Use placeholders for personal details</span>
-                    <span class="info-icon" title="When enabled, suggestions include placeholder segments you can later replace with your own experiences or details." aria-label="Info">ℹ</span>
-                </label>
+            
+            <div class="form-section">
+                <div class="field-label-row">
+                    <label>Writing Style *</label>
+                    <span class="info-icon-container">
+                        <button type="button" class="info-icon" id="style-info-btn" aria-label="Show writing style information" aria-expanded="false" aria-controls="style-info-tooltip">ℹ</button>
+                        <div id="style-info-tooltip" class="info-tooltip hidden" role="tooltip">
+                            <p><strong>Familiar:</strong> Informal — the way you'd write to friends or on social media.</p>
+                            <p><strong>Formal:</strong> More distant and professional, for example in a news comment section or when you want to keep a professional tone.</p>
+                        </div>
+                    </span>
+                </div>
+                <div class="style-options">
+                    <button type="button" class="style-option" data-style="familiar">Familiar</button>
+                    <button type="button" class="style-option" data-style="formal">Formal</button>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="field-label-row">
+                    <label>Response Length</label>
+                    <span class="info-icon-container">
+                        <button type="button" class="info-icon" id="length-info-btn" aria-label="Show response length information" aria-expanded="false" aria-controls="length-info-tooltip">ℹ</button>
+                        <div id="length-info-tooltip" class="info-tooltip hidden" role="tooltip">
+                            <p><strong>Short:</strong> 20–40 words</p>
+                            <p><strong>Medium:</strong> 40–80 words</p>
+                            <p><strong>Long:</strong> 80–120 words</p>
+                        </div>
+                    </span>
+                </div>
+                <div class="length-options">
+                    <button type="button" class="length-option" data-length="1">Short</button>
+                    <button type="button" class="length-option selected" data-length="2">Medium</button>
+                    <button type="button" class="length-option" data-length="3">Long</button>
+                </div>
             </div>
 
         <button id="generate-btn" class="generate-btn">Generate Responses</button>

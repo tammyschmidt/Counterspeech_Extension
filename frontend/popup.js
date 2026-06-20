@@ -11,9 +11,6 @@ const hatefulCommentInput = document.getElementById('hateful-comment');
 const additionalInputInput = document.getElementById('additional-input');
 const roleOptions = document.querySelectorAll('.role-option');
 const writingStyleOptions = document.querySelectorAll('.style-option');
-const lengthSlider = document.getElementById('length-slider');
-const lengthValueDisplay = document.getElementById('length-value');
-const usePlaceholdersCheckbox = document.getElementById('use-placeholders');
 const generateBtn = document.getElementById('generate-btn');
 const loadingDiv = document.getElementById('loading');
 const suggestionsDiv = document.getElementById('suggestions');
@@ -29,6 +26,9 @@ let selectedRole = null;
 
 // Selected writing style
 let selectedWritingStyle = null;
+
+// Selected length (default: Medium)
+let selectedLength = 2;
 
 // Consent Elements
 const consentPrivacy = document.getElementById('consent-privacy');
@@ -128,9 +128,109 @@ function hasAllConsents() {
     return consentState.privacy && consentState.accountability && consentState.ethical;
 }
 
+function setButtonGroupSelection(selector, dataAttr, value) {
+    document.querySelectorAll(selector).forEach(opt => {
+        opt.classList.toggle('selected', value != null && opt.getAttribute(dataAttr) === String(value));
+    });
+}
+
+async function loadFormState() {
+    try {
+        const storage = getStorage();
+        if (!storage) {
+            return;
+        }
+
+        const result = await storage.get(['formState']);
+        const formState = result.formState;
+        if (!formState) {
+            return;
+        }
+
+        if (formState.hatefulComment !== undefined) {
+            hatefulCommentInput.value = formState.hatefulComment;
+        }
+        if (formState.additionalInput !== undefined) {
+            additionalInputInput.value = formState.additionalInput;
+        }
+        if (formState.selectedRole !== undefined) {
+            selectedRole = formState.selectedRole;
+            setButtonGroupSelection('.role-option', 'data-role', selectedRole);
+        }
+        if (formState.selectedWritingStyle !== undefined) {
+            selectedWritingStyle = formState.selectedWritingStyle;
+            setButtonGroupSelection('.style-option', 'data-style', selectedWritingStyle);
+        }
+        if (formState.selectedLength !== undefined) {
+            selectedLength = formState.selectedLength;
+            setButtonGroupSelection('.length-option', 'data-length', selectedLength);
+        }
+    } catch (error) {
+        console.error('Error loading form state:', error);
+    }
+}
+
+async function saveFormState() {
+    try {
+        const storage = getStorage();
+        if (!storage) {
+            return;
+        }
+
+        await storage.set({
+            formState: {
+                hatefulComment: hatefulCommentInput.value,
+                additionalInput: additionalInputInput.value,
+                selectedRole,
+                selectedWritingStyle,
+                selectedLength
+            }
+        });
+    } catch (error) {
+        console.error('Error saving form state:', error);
+    }
+}
+
+let saveFormStateTimeout = null;
+
+function scheduleSaveFormState() {
+    clearTimeout(saveFormStateTimeout);
+    saveFormStateTimeout = setTimeout(saveFormState, 300);
+}
+
+async function saveSuggestions(suggestions) {
+    try {
+        const storage = getStorage();
+        if (!storage) {
+            return;
+        }
+        await storage.set({ suggestions });
+    } catch (error) {
+        console.error('Error saving suggestions:', error);
+    }
+}
+
+async function loadSuggestions() {
+    try {
+        const storage = getStorage();
+        if (!storage) {
+            return;
+        }
+        const result = await storage.get(['suggestions']);
+        const suggestions = result.suggestions;
+        if (suggestions && suggestions.length) {
+            displaySuggestions(suggestions, { scroll: false, persist: false });
+        }
+    } catch (error) {
+        console.error('Error loading suggestions:', error);
+    }
+}
+
 // Initialize everything when DOM is ready
-function initialize() {
-    loadConsentState();
+async function initialize() {
+    await loadConsentState();
+    await loadFormState();
+    await loadSuggestions();
 }
 
 // Ensure DOM is ready before initializing
@@ -163,6 +263,59 @@ if (consentEthical) {
     });
 }
 
+hatefulCommentInput.addEventListener('input', scheduleSaveFormState);
+additionalInputInput.addEventListener('input', scheduleSaveFormState);
+
+function setupInfoTooltips() {
+    const infoButtons = document.querySelectorAll('.info-icon');
+
+    function getTooltip(btn) {
+        const tooltipId = btn.getAttribute('aria-controls');
+        return tooltipId ? document.getElementById(tooltipId) : null;
+    }
+
+    function closeTooltip(btn) {
+        const tooltip = getTooltip(btn);
+        if (!tooltip) return;
+        tooltip.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+    }
+
+    infoButtons.forEach((btn) => {
+        const tooltip = getTooltip(btn);
+        if (!tooltip) return;
+
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const isOpen = !tooltip.classList.contains('hidden');
+
+            infoButtons.forEach((otherBtn) => {
+                if (otherBtn !== btn) closeTooltip(otherBtn);
+            });
+
+            if (isOpen) {
+                closeTooltip(btn);
+            } else {
+                tooltip.classList.remove('hidden');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        infoButtons.forEach((btn) => {
+            const tooltip = getTooltip(btn);
+            if (!tooltip) return;
+            if (!btn.contains(e.target) && !tooltip.contains(e.target)) {
+                closeTooltip(btn);
+            }
+        });
+    });
+}
+
+setupInfoTooltips();
+
 // Show different windows
 function showInfoWindow() {
     generationWindow.classList.remove('active');
@@ -184,40 +337,28 @@ if (headerBtn) {
     });
 }
 
-// Length labels mapping with descriptions
-const lengthLabels = {
-    1: { name: 'Short', description: '(20-40 words)' },
-    2: { name: 'Medium', description: '(40-80 words)' },
-    3: { name: 'Long', description: '(80-120 words)' }
-};
-
-// Update length display when slider changes
-lengthSlider.addEventListener('input', (e) => {
-    const value = parseInt(e.target.value);
-    const label = lengthLabels[value] || lengthLabels[2];
-    lengthValueDisplay.innerHTML = `${label.name}<br>${label.description}`;
-});
-
-// Initialize length display
-const initialValue = parseInt(lengthSlider.value);
-const initialLabel = lengthLabels[initialValue] || lengthLabels[2];
-lengthValueDisplay.innerHTML = `${initialLabel.name}<br>${initialLabel.description}`;
-
-// Role and Writing style selection handlers
+// Role, writing style, and length selection handlers
 if (generationWindow) {
     generationWindow.addEventListener('click', (e) => {
         const roleOpt = e.target.closest('.role-option');
         if (roleOpt) {
-            document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
-            roleOpt.classList.add('selected');
             selectedRole = roleOpt.getAttribute('data-role');
+            setButtonGroupSelection('.role-option', 'data-role', selectedRole);
+            saveFormState();
             return;
         }
         const styleOpt = e.target.closest('.style-option');
         if (styleOpt) {
-            document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
-            styleOpt.classList.add('selected');
             selectedWritingStyle = styleOpt.getAttribute('data-style');
+            setButtonGroupSelection('.style-option', 'data-style', selectedWritingStyle);
+            saveFormState();
+            return;
+        }
+        const lengthOpt = e.target.closest('.length-option');
+        if (lengthOpt) {
+            selectedLength = parseInt(lengthOpt.getAttribute('data-length'), 10);
+            setButtonGroupSelection('.length-option', 'data-length', selectedLength);
+            saveFormState();
         }
     });
 }
@@ -268,8 +409,7 @@ generateBtn.addEventListener('click', async () => {
                 additional_input: additionalInputInput.value || null,
                 role: selectedRole,
                 writing_style: selectedWritingStyle,
-                length: parseInt(lengthSlider.value),
-                use_placeholders: document.getElementById('use-placeholders')?.checked ?? false
+                length: selectedLength
             })
         });
 
@@ -297,7 +437,7 @@ generateBtn.addEventListener('click', async () => {
 });
 
 // Display suggestions
-function displaySuggestions(suggestions) {
+function displaySuggestions(suggestions, { scroll = true, persist = true } = {}) {
     suggestionsList.innerHTML = '';
     
     suggestions.forEach((suggestion, index) => {
@@ -319,11 +459,14 @@ function displaySuggestions(suggestions) {
                 // Save mode
                 suggestionText.contentEditable = 'false';
                 editBtn.textContent = 'Edit';
+                editBtn.classList.remove('saving');
+                saveSuggestions(getCurrentSuggestionsText());
             } else {
                 // Edit mode
                 suggestionText.contentEditable = 'true';
                 suggestionText.focus();
                 editBtn.textContent = 'Save';
+                editBtn.classList.add('saving');
             }
         });
         
@@ -352,5 +495,15 @@ function displaySuggestions(suggestions) {
     });
     
     suggestionsDiv.classList.remove('hidden');
-    suggestionsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (scroll) {
+        suggestionsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (persist) {
+        saveSuggestions(suggestions);
+    }
+}
+
+function getCurrentSuggestionsText() {
+    return Array.from(suggestionsList.querySelectorAll('.suggestion-text'))
+        .map(el => el.textContent.trim());
 }
