@@ -21,7 +21,7 @@ class GroqService:
     def generate_counterspeech(
         self,
         hateful_comment: str,
-        additional_input: str = None,
+        additional_input: str,
         role: str,
         writing_style: str,
         length: int = 2,
@@ -44,7 +44,7 @@ class GroqService:
 
         messages = self.prompt_template.format_messages(
             hateful_comment=hateful_comment.strip(),
-            role=role,
+            role=self._format_role(role),
             writing_style=self._format_writing_style(writing_style),
             length=self._format_length(length),
             additional_input=additional_input,
@@ -109,7 +109,7 @@ class GroqService:
             "that guidance.\n"
             "   - If it is a draft or idea, improve it while keeping its "
             "meaning and style.\n"
-            "5) Consider the role of the responder ({role}) and {writing_style}. Address the writer of the HS."
+            "5) Write the CS from the perspective of {role} and {writing_style}. Address the writer of the HS."
             "6) Generate three CS suggestions as a response to the HS, following this priority order: "
             "Safeguards > Default guidelines > User input > Retrieved examples."
         )
@@ -158,6 +158,16 @@ class GroqService:
         }
         key = (writing_style).strip().lower()
         return styles.get(key)
+
+    def _format_role(self, role: str) -> str:
+        """Return a half-sentence instruction describing the role."""
+        roles = {
+            "target": "someone who is directly targeted by the HS as an individual",
+            "target-group": "someone who belongs to the group targeted by the HS",
+            "ally": "an ally of the targeted group or person",
+        }
+        key = (role).strip().lower()
+        return roles.get(key)
 
     def _parse_suggestions(self, response_text: str) -> List[str]:
         """Parse the LLM response to extract exactly three suggestions."""
