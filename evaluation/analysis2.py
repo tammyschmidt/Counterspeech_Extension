@@ -305,7 +305,8 @@ def plot_authentic_dots(df):
         "Willingness to Post"
     ]
     
-    plt.figure(figsize=set_size(latex_width))
+    w, h = set_size(latex_width)
+    plt.figure(figsize=(w, h * 0.65))  # ← reduce height multiplier to taste
     
     dots_per_row = 5
     dot_spacing_y = 0.2
@@ -352,10 +353,10 @@ def plot_authentic_dots(df):
     plt.gca().invert_yaxis()
 
     plt.xlim(0.5, 5.5)
-    plt.ylim(4.7, -0.5) #reversed because of axis inversion
+    plt.ylim(4.7, -0.5)  # ← tighter bounds top and bottom
     
     plt.xlabel("Likert Scale", fontsize=10, labelpad=10)
-    plt.ylabel("Authenticity Criteria", fontsize=10, labelpad=10)
+    plt.ylabel("Authenticity-Related Items", fontsize=10, labelpad=10)
     
     plt.grid(axis='x', linestyle=':', alpha=0.4)
 
@@ -365,7 +366,6 @@ def plot_authentic_dots(df):
     plt.savefig(out, bbox_inches="tight")
 
     plt.close()
-
 
 # =========================
 # USER STUDY PART 2
@@ -497,14 +497,14 @@ def table_iaa(df):
 if __name__ == "__main__":
 
     df1 = load_data(DATA_PATH_1)
-    #df2 = load_data(DATA_PATH_2)
+    df2 = load_data(DATA_PATH_2)
 
-    #plot_time(df1)
+    plot_time(df1)
     plot_time_slope(df1)
-    #plot_willingness(df1)
-    #plot_authentic_dots(df1)
+    plot_willingness(df1)
+    plot_authentic_dots(df1)
 
-    #table_effectiveness(df2)
-    #table_iaa(df2)
+    table_effectiveness(df2)
+    table_iaa(df2)
 
     print("Done")
